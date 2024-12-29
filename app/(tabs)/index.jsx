@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
 const categories = [
   { icon: "pizza", name: "Pizza" },
@@ -21,22 +22,35 @@ const categories = [
 const restaurants = [
   {
     name: "The Gardens",
-    image: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735458917/thegardens_phepsj.jpg",
+    image:
+      "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735458917/thegardens_phepsj.jpg",
     location: "Panipokhari, Kathmandu",
     rating: "4.5",
     deliveryTime: "25-35",
   },
   {
-    name: "Pizza Hut",
-    image: "https://example.com/pizza-hut.jpg",
-    location: "Panipokhari, Kathmandu",
+    name: "Hyderabadi Dum Biryani",
+    image: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735464582/bpdstnrpummetqvgogdz.jpg",
+    location: "Thamel, Kathmandu",
     rating: "4.2",
     deliveryTime: "30-40",
   },
   {
-    name: "Subway",
-    image: "https://example.com/subway.jpg",
+    name: "Chiya Maya",
+    image: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735464892/ja5clpy6yb4uq6x3xpcm.webp",
     location: "Panipokhari, Kathmandu",
+    rating: "4.0",
+    deliveryTime: "20-30",
+  },{
+    name: "KFC",
+    image: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735465083/iyqc8vgvr5o4aiy0kaep.jpg",
+    location: "Pulchowk, Lalitpur",
+    rating: "4.0",
+    deliveryTime: "20-30",
+  },{
+    name: "Trisara",
+    image: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735465522/our-ambiance_nj4uf3.jpg",
+    location: "Durbarmarg, Kathmandu",
     rating: "4.0",
     deliveryTime: "20-30",
   },
@@ -51,20 +65,42 @@ const CategoryItem = ({ icon, name }) => (
   </TouchableOpacity>
 );
 
-const RestaurantItem = ({ name, image, rating, deliveryTime }) => (
-  <TouchableOpacity style={styles.restaurantItem}>
-    <Image source={{ uri: image }} style={styles.restaurantImage} />
-    <Text style={styles.restaurantName}>{name}</Text>
-    <Text style={styles.resaddress}>Panipokhari, Kathmandu</Text>
-    <View style={styles.restaurantInfo}>
-      <Ionicons name="star" size={16} color="#FFC107" />
-      <Text style={styles.restaurantRating}>{rating}</Text>
-      <Text style={styles.restaurantDeliveryTime}>{deliveryTime} min</Text>
-    </View>
-  </TouchableOpacity>
-);
+const RestaurantItem = ({ restaurant }) => {
+  const router = useRouter();
+  return (
+    <TouchableOpacity
+      style={styles.restaurantItem}
+      onPress={() =>
+        router.push({
+          pathname: "/restaurant",
+          params: {
+            name: restaurant.name,
+            image: restaurant.image,
+            location: restaurant.location,
+            rating: restaurant.rating,
+            deliveryTime: restaurant.deliveryTime
+          }, 
+        })
+      }
+    >
+      <Image
+        source={{ uri: restaurant.image }}
+        style={styles.restaurantImage}
+      />
+      <Text style={styles.restaurantName}>{restaurant.name}</Text>
+      <Text style={styles.resaddress}>{restaurant.location}</Text>
+      <View style={styles.restaurantInfo}>
+        <Ionicons name="star" size={16} color="#FFC107" />
+        <Text style={styles.restaurantRating}>{restaurant.rating}</Text>
+        <Text style={styles.restaurantDeliveryTime}>
+          {restaurant.deliveryTime} min
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
+};
 
-const UberEatsHomeScreen = () => {
+const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -75,7 +111,14 @@ const UberEatsHomeScreen = () => {
           <View style={styles.toprightview}>
             <TouchableOpacity>
               <View style={styles.streakmain}>
-                <Text style={{fontFamily: "Montserrat_900Black_Italic", fontSize: 15}}>13</Text>
+                <Text
+                  style={{
+                    fontFamily: "Montserrat_900Black_Italic",
+                    fontSize: 15,
+                  }}
+                >
+                  13
+                </Text>
                 <Ionicons name="flash" size={25} color="#FE8A01" />
               </View>
             </TouchableOpacity>
@@ -115,13 +158,7 @@ const UberEatsHomeScreen = () => {
         <Text style={styles.sectionTitle}>Featured Restaurants</Text>
         <View style={styles.restaurantsContainer}>
           {restaurants.map((restaurant, index) => (
-            <RestaurantItem
-              key={index}
-              name={restaurant.name}
-              image={restaurant.image}
-              rating={restaurant.rating}
-              deliveryTime={restaurant.deliveryTime}
-            />
+            <RestaurantItem key={index} restaurant={restaurant} />
           ))}
         </View>
       </ScrollView>
@@ -157,10 +194,10 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
     paddingTop: 50,
   },
-  resaddress:{
+  resaddress: {
     color: "#666",
     fontSize: 12,
-    fontFamily: "Montserrat_400Regular_Italic"
+    fontFamily: "Montserrat_400Regular_Italic",
   },
   headerTitle: {
     fontSize: 28,
@@ -245,4 +282,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UberEatsHomeScreen;
+export default HomeScreen;
