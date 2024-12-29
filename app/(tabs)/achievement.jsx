@@ -1,39 +1,9 @@
-import React from 'react';
-import { View, Text, Image, ScrollView, StyleSheet } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
+import { useFocusEffect } from '@react-navigation/native';
 
-const CircularProgress = ({ progress, size = 48, strokeWidth = 4 }) => {
-  const radius = (size - strokeWidth) / 2;
-  const circumference = radius * 2 * Math.PI;
-  const progressOffset = circumference - (progress / 100) * circumference;
-
-  return (
-    <View style={[styles.circularContainer, { width: size, height: size }]}>
-      <Svg width={size} height={size}>
-        <Circle
-          stroke="#E0E0E0"
-          fill="none"
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          strokeWidth={strokeWidth}
-        />
-        <Circle
-          stroke="#4CAF50"
-          fill="none"
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          strokeWidth={strokeWidth}
-          strokeDasharray={circumference}
-          strokeDashoffset={progressOffset}
-          strokeLinecap="round"
-          transform={`rotate(-90 ${size / 2} ${size / 2})`}
-        />
-      </Svg>
-    </View>
-  );
-};
+const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 const achievements = [
   {
@@ -58,7 +28,7 @@ const achievements = [
     description: 'Order sushi 5 times',
     icon: require('../../assets/images/sushi-icon.png'),
     medal: require('../../assets/images/bronze-medal.png'),
-    progress: 60,
+    progress: 80,
   },
   {
     id: 4,
@@ -94,7 +64,88 @@ const achievements = [
   },
 ];
 
+const CircularProgress = ({ progress, size = 48, strokeWidth = 4 }) => {
+  const animatedProgress = useRef(new Animated.Value(0)).current;
+  const radius = (size - strokeWidth) / 2;
+  const circumference = radius * 2 * Math.PI;
+
+  const startAnimation = () => {
+    // Reset the animation value
+    animatedProgress.setValue(0);
+    Animated.timing(animatedProgress, {
+      toValue: progress,
+      duration: 1500,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  // Use useFocusEffect to restart animation when screen comes into focus
+  useFocusEffect(
+    React.useCallback(() => {
+      startAnimation();
+      return () => {
+        // Optional cleanup if needed
+      };
+    }, [progress])
+  );
+
+  const progressOffset = animatedProgress.interpolate({
+    inputRange: [0, 100],
+    outputRange: [circumference, 0],
+    extrapolate: 'clamp',
+  });
+
+  return (
+    <View style={[styles.circularContainer, { width: size, height: size }]}>
+      <Svg width={size} height={size}>
+        <Circle
+          stroke="#E0E0E0"
+          fill="none"
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          strokeWidth={strokeWidth}
+        />
+        <AnimatedCircle
+          stroke="#4CAF50"
+          fill="none"
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          strokeWidth={strokeWidth}
+          strokeDasharray={circumference}
+          strokeDashoffset={progressOffset}
+          strokeLinecap="round"
+          transform={`rotate(-90 ${size / 2} ${size / 2})`}
+        />
+      </Svg>
+    </View>
+  );
+};
+
 export default function UserProfile() {
+  const progressAnimation = useRef(new Animated.Value(0)).current;
+
+  const startProgressAnimation = () => {
+    // Reset the animation value
+    progressAnimation.setValue(0);
+    Animated.timing(progressAnimation, {
+      toValue: 86.6,
+      duration: 1500,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  // Use useFocusEffect instead of useEffect to handle navigation focus
+  useFocusEffect(
+    React.useCallback(() => {
+      startProgressAnimation();
+      return () => {
+        // Optional cleanup if needed
+      };
+    }, [])
+  );
+
   return (
     <View style={styles.container}>
       <View style={styles.profileHeader}>
@@ -115,7 +166,17 @@ export default function UserProfile() {
         <Text style={styles.pointsText}>500 Points to next level</Text>
         <View style={styles.progressBarContainer}>
           <View style={styles.progressBarBackground}>
-            <View style={[styles.progressBar, { width: '86.6%' }]} />
+            <Animated.View 
+              style={[
+                styles.progressBar, 
+                { 
+                  width: progressAnimation.interpolate({
+                    inputRange: [0, 100],
+                    outputRange: ['0%', '100%']
+                  })
+                }
+              ]} 
+            />
           </View>
           <View style={styles.progressNumbers}>
             <Text style={styles.progressNumber}>2</Text>
@@ -127,17 +188,19 @@ export default function UserProfile() {
 
       <ScrollView style={styles.achievementsList}>
         {achievements.map((achievement) => (
-          <View key={achievement.id} style={styles.achievementItem}>
-            <View style={styles.achievementIconContainer}>
-              <CircularProgress progress={achievement.progress} />
-              <Image source={achievement.icon} style={styles.achievementIcon} />
+          <TouchableOpacity key={achievement.id}>
+            <View style={styles.achievementItem}>
+              <View style={styles.achievementIconContainer}>
+                <CircularProgress progress={achievement.progress} />
+                <Image source={achievement.icon} style={styles.achievementIcon} />
+              </View>
+              <View style={styles.achievementInfo}>
+                <Text style={styles.achievementTitle}>{achievement.title}</Text>
+                <Text style={styles.achievementDescription}>{achievement.description}</Text>
+              </View>
+              <Image source={achievement.medal} style={styles.medalIcon} />
             </View>
-            <View style={styles.achievementInfo}>
-              <Text style={styles.achievementTitle}>{achievement.title}</Text>
-              <Text style={styles.achievementDescription}>{achievement.description}</Text>
-            </View>
-            <Image source={achievement.medal} style={styles.medalIcon} />
-          </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </View>
@@ -272,4 +335,3 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
 });
-
