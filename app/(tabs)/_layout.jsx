@@ -1,6 +1,6 @@
 import { Tabs } from "expo-router";
 import React from "react";
-import { Platform, StyleSheet } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
 import { HapticTab } from "@/components/HapticTab";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import { Colors } from "@/constants/Colors";
@@ -38,6 +38,7 @@ export default function TabLayout() {
         ],
         tabBarLabelStyle: styles.label,
         tabBarIconStyle: styles.icon,
+        tabBarItemStyle: styles.tabBarItem,
       }}
     >
       <Tabs.Screen
@@ -46,15 +47,6 @@ export default function TabLayout() {
           title: "Home",
           tabBarIcon: ({ color }) => (
             <IconSymbol size={28} name="house.fill" color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: "Explore",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="paperplane.fill" color={color} />
           ),
         }}
       />
@@ -72,15 +64,28 @@ export default function TabLayout() {
         options={{
           title: "Leaderboard",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="paperplane.fill" color={color} />
+            <IconSymbol size={28} name="leaderboard.fill" color={color} />
           ),
         }}
       />
+      {/* <View style={{ flex: 1, justifyContent: "center" }}> */}
+        <Tabs.Screen
+          name="wheel"
+          options={{
+            title: "Spin the Wheel",
+            tabBarIcon: ({ color }) => (
+              <IconSymbol size={28} name="wheel.fill" color={color} />
+            ),
+          }}
+        />
+      {/* </View> */}
       <Tabs.Screen
-        name="wheel"
+        name="profile"
         options={{
-          title: 'Wheel',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: "Profile",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="profile.fill" color={color} />
+          ),
         }}
       />
     </Tabs>
@@ -90,16 +95,20 @@ export default function TabLayout() {
 const styles = StyleSheet.create({
   tabBar: {
     backgroundColor: "white",
-    borderRadius: 20,
-    position: "absolute",
-    margin: 15,
-    // padding:25,
+    borderRadius: 15,
+    margin: 20,
+    height: 60, // Set a consistent height
+    justifyContent: "center", // Align content vertically
+  },
+  tabBarItem: {
+    justifyContent: "center", // Align items vertically
+    alignItems: "center", // Align items horizontally
   },
   label: {
     fontSize: 12,
-    marginTop: 4,
+    textAlign: "center", // Center-align the label
   },
   icon: {
-    marginBottom: -4, // Slight adjustment for icon positioning
+    alignSelf: "center", // Ensure the icon aligns to the center
   },
 });
