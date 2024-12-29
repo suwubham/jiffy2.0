@@ -8,7 +8,39 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+
+const categories = [
+  { icon: "pizza", name: "Pizza" },
+  { icon: "fast-food", name: "Burgers" },
+  { icon: "cafe", name: "Coffee" },
+  { icon: "restaurant", name: "Sushi" },
+  { icon: "ice-cream", name: "Dessert" },
+];
+
+const restaurants = [
+  {
+    name: "The Gardens",
+    image: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735458917/thegardens_phepsj.jpg",
+    location: "Panipokhari, Kathmandu",
+    rating: "4.5",
+    deliveryTime: "25-35",
+  },
+  {
+    name: "Pizza Hut",
+    image: "https://example.com/pizza-hut.jpg",
+    location: "Panipokhari, Kathmandu",
+    rating: "4.2",
+    deliveryTime: "30-40",
+  },
+  {
+    name: "Subway",
+    image: "https://example.com/subway.jpg",
+    location: "Panipokhari, Kathmandu",
+    rating: "4.0",
+    deliveryTime: "20-30",
+  },
+];
 
 const CategoryItem = ({ icon, name }) => (
   <TouchableOpacity style={styles.categoryItem}>
@@ -23,6 +55,7 @@ const RestaurantItem = ({ name, image, rating, deliveryTime }) => (
   <TouchableOpacity style={styles.restaurantItem}>
     <Image source={{ uri: image }} style={styles.restaurantImage} />
     <Text style={styles.restaurantName}>{name}</Text>
+    <Text style={styles.resaddress}>Panipokhari, Kathmandu</Text>
     <View style={styles.restaurantInfo}>
       <Ionicons name="star" size={16} color="#FFC107" />
       <Text style={styles.restaurantRating}>{rating}</Text>
@@ -42,10 +75,8 @@ const UberEatsHomeScreen = () => {
           <View style={styles.toprightview}>
             <TouchableOpacity>
               <View style={styles.streakmain}>
-              <Text>
-                  12
-                </Text>
-                <Ionicons name="flash-outline" size={30} color="#000" />
+                <Text style={{fontFamily: "Montserrat_900Black_Italic", fontSize: 15}}>13</Text>
+                <Ionicons name="flash" size={25} color="#FE8A01" />
               </View>
             </TouchableOpacity>
             <TouchableOpacity>
@@ -72,33 +103,26 @@ const UberEatsHomeScreen = () => {
           showsHorizontalScrollIndicator={false}
           style={styles.categoriesContainer}
         >
-          <CategoryItem icon="pizza" name="Pizza" />
-          <CategoryItem icon="fast-food" name="Burgers" />
-          <CategoryItem icon="cafe" name="Coffee" />
-          <CategoryItem icon="restaurant" name="Sushi" />
-          <CategoryItem icon="ice-cream" name="Dessert" />
+          {categories.map((category, index) => (
+            <CategoryItem
+              key={index}
+              icon={category.icon}
+              name={category.name}
+            />
+          ))}
         </ScrollView>
 
         <Text style={styles.sectionTitle}>Featured Restaurants</Text>
         <View style={styles.restaurantsContainer}>
-          <RestaurantItem
-            name="Burger King"
-            image="https://example.com/burger-king.jpg"
-            rating="4.5"
-            deliveryTime="25-35"
-          />
-          <RestaurantItem
-            name="Pizza Hut"
-            image="https://example.com/pizza-hut.jpg"
-            rating="4.2"
-            deliveryTime="30-40"
-          />
-          <RestaurantItem
-            name="Subway"
-            image="https://example.com/subway.jpg"
-            rating="4.0"
-            deliveryTime="20-30"
-          />
+          {restaurants.map((restaurant, index) => (
+            <RestaurantItem
+              key={index}
+              name={restaurant.name}
+              image={restaurant.image}
+              rating={restaurant.rating}
+              deliveryTime={restaurant.deliveryTime}
+            />
+          ))}
         </View>
       </ScrollView>
     </View>
@@ -110,7 +134,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
-
   toprightview: {
     flexDirection: "row",
     gap: 15,
@@ -125,22 +148,30 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     padding: 10,
   },
-
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 16,
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingBottom: 0,
     paddingTop: 50,
   },
+  resaddress:{
+    color: "#666",
+    fontSize: 12,
+    fontFamily: "Montserrat_400Regular_Italic"
+  },
   headerTitle: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "400",
-    color: "#FB8E13",
-    fontFamily: "Montserrat_700Bold",
+    color: "#FE8A01",
+    fontFamily: "Montserrat_900Black_Italic",
   },
   headerTitleBold: {
     fontWeight: "bold",
+    fontWeight: "400",
+    fontFamily: "Montserrat_900Black_Italic",
   },
   searchBar: {
     flexDirection: "row",
@@ -178,7 +209,9 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontFamily: "Montserrat_700Bold",
+    fontWeight: "400",
+    color: "#FE8A01",
     margin: 16,
   },
   restaurantsContainer: {
@@ -194,7 +227,8 @@ const styles = StyleSheet.create({
   },
   restaurantName: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontFamily: "Montserrat_700Bold",
+    fontWeight: "400",
     marginTop: 8,
   },
   restaurantInfo: {
@@ -208,16 +242,6 @@ const styles = StyleSheet.create({
   },
   restaurantDeliveryTime: {
     color: "#666",
-  },
-  bottomNav: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    borderTopWidth: 1,
-    borderTopColor: "#e0e0e0",
-    paddingVertical: 10,
-  },
-  navItem: {
-    alignItems: "center",
   },
 });
 
