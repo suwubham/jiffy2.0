@@ -1,5 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, FlatList, Image } from "react-native";
+import { Ionicons } from '@expo/vector-icons';
+
 
 const LeaderboardItem = ({ item, index }) => {
   const getBackgroundColor = () => {
@@ -10,7 +12,7 @@ const LeaderboardItem = ({ item, index }) => {
   };
   return (
     <View style={[styles.item, { backgroundColor: getBackgroundColor() }]}>
-      <Text style={styles.rank}>{index + 1}</Text>
+      <Ionicons name="arrow-up-outline"/>
       <Text style={styles.rank}>{index + 1}</Text>
       <Image source={{ uri: item.avatar }} style={styles.avatar} />
       <View style={styles.userInfo}>
@@ -87,11 +89,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
     textAlign: "left",
-    paddingVertical:30
+    paddingVertical:30,
+    color:"#fe8a01"
   },
   item: {
     flexDirection: "row",
-    justifyContent:"flex-start",
     alignItems: "center",
     backgroundColor: "white",
     padding: 10,
