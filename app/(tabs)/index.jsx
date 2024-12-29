@@ -30,26 +30,32 @@ const restaurants = [
   },
   {
     name: "Hyderabadi Dum Biryani",
-    image: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735464582/bpdstnrpummetqvgogdz.jpg",
+    image:
+      "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735464582/bpdstnrpummetqvgogdz.jpg",
     location: "Thamel, Kathmandu",
     rating: "4.2",
     deliveryTime: "30-40",
   },
   {
     name: "Chiya Maya",
-    image: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735464892/ja5clpy6yb4uq6x3xpcm.webp",
+    image:
+      "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735464892/ja5clpy6yb4uq6x3xpcm.webp",
     location: "Panipokhari, Kathmandu",
     rating: "4.0",
     deliveryTime: "20-30",
-  },{
+  },
+  {
     name: "KFC",
-    image: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735465083/iyqc8vgvr5o4aiy0kaep.jpg",
+    image:
+      "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735465083/iyqc8vgvr5o4aiy0kaep.jpg",
     location: "Pulchowk, Lalitpur",
     rating: "4.0",
     deliveryTime: "20-30",
-  },{
+  },
+  {
     name: "Trisara",
-    image: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735465522/our-ambiance_nj4uf3.jpg",
+    image:
+      "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735465522/our-ambiance_nj4uf3.jpg",
     location: "Durbarmarg, Kathmandu",
     rating: "4.0",
     deliveryTime: "20-30",
@@ -78,8 +84,9 @@ const RestaurantItem = ({ restaurant }) => {
             image: restaurant.image,
             location: restaurant.location,
             rating: restaurant.rating,
-            deliveryTime: restaurant.deliveryTime
-          }, 
+            deliveryTime: restaurant.deliveryTime,
+          },
+          pathname:"restaurant",
         })
       }
     >
@@ -92,6 +99,7 @@ const RestaurantItem = ({ restaurant }) => {
       <View style={styles.restaurantInfo}>
         <Ionicons name="star" size={16} color="#FFC107" />
         <Text style={styles.restaurantRating}>{restaurant.rating}</Text>
+        <Ionicons name="time" size={16} color="#666" />
         <Text style={styles.restaurantDeliveryTime}>
           {restaurant.deliveryTime} min
         </Text>
@@ -109,6 +117,19 @@ const HomeScreen = () => {
             Jiffy <Text style={styles.headerTitleBold}>2.0</Text>
           </Text>
           <View style={styles.toprightview}>
+            <TouchableOpacity>
+              <View style={styles.streakmain}>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    fontFamily: "Montserrat_900Black_Italic",
+                  }}
+                >
+                  6940
+                </Text>
+                <Ionicons name="wallet" size={25} color="#FE8A01" />
+              </View>
+            </TouchableOpacity>
             <TouchableOpacity>
               <View style={styles.streakmain}>
                 <Text
@@ -156,11 +177,22 @@ const HomeScreen = () => {
         </ScrollView>
 
         <Text style={styles.sectionTitle}>Featured Restaurants</Text>
-        <View style={styles.restaurantsContainer}>
-          {restaurants.map((restaurant, index) => (
-            <RestaurantItem key={index} restaurant={restaurant} />
-          ))}
+        <View style={styles.containerRestaurant}>
+          <ScrollView
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.scrollViewContentRestaurant}
+          >
+            {restaurants.map((restaurant, index) => (
+              <View key={index} style={styles.restaurantItemContainer}>
+                <RestaurantItem key={index} restaurant={restaurant} />
+              </View>
+            ))}
+          </ScrollView>
         </View>
+
+        <Text style={styles.sectionTitle}>Featured Foods</Text>
+
       </ScrollView>
     </View>
   );
@@ -173,7 +205,7 @@ const styles = StyleSheet.create({
   },
   toprightview: {
     flexDirection: "row",
-    gap: 15,
+    gap: 5,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -184,6 +216,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f0f0f0",
     borderRadius: 25,
     padding: 10,
+    gap: 5,
   },
   header: {
     flexDirection: "row",
@@ -224,6 +257,7 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     paddingVertical: 12,
+    fontFamily: "Montserrat_400Regular_Italic",
   },
   categoriesContainer: {
     paddingLeft: 16,
@@ -243,10 +277,11 @@ const styles = StyleSheet.create({
   categoryName: {
     marginTop: 8,
     fontSize: 12,
+    fontFamily: "Montserrat_500Medium",
   },
   sectionTitle: {
     fontSize: 20,
-    fontFamily: "Montserrat_700Bold",
+    fontFamily: "Montserrat_700Bold_Italic",
     fontWeight: "400",
     color: "#FE8A01",
     margin: 16,
@@ -255,12 +290,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   restaurantItem: {
-    marginBottom: 20,
+    marginBottom: 4,
   },
   restaurantImage: {
     width: "100%",
     height: 200,
     borderRadius: 8,
+  },
+  containerRestaurant: {
+    width: "200%",
+  },
+  scrollViewContentRestaurant: {
+    paddingHorizontal: 10,
+  },
+  restaurantItemContainer: {
+    marginRight: 25,
+    width: 300,
   },
   restaurantName: {
     fontSize: 18,
@@ -276,9 +321,12 @@ const styles = StyleSheet.create({
   restaurantRating: {
     marginLeft: 4,
     marginRight: 8,
+    fontFamily: "Montserrat_500Medium",
   },
   restaurantDeliveryTime: {
     color: "#666",
+    fontFamily: "Montserrat_500Medium",
+    marginLeft: 4,
   },
 });
 
