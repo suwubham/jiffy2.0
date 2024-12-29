@@ -3,27 +3,29 @@ import { View, Text, StyleSheet, FlatList, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 const LeaderboardItem = ({ item, index }) => {
-  const getBackgroundColor = () => {
-    if (index === 0) return "#FFCA28";
+  const getRankColor = () => {
+    if (index === 0) return "#FFCA28"; // Gold for 1st place
     if (index === 1) return "#C0C0C0"; // Silver for 2nd place
     if (index === 2) return "#CD7F32"; // Bronze for 3rd place
-    return "white"; // Default color for others
+    return "#000"; // Default black for others
   };
+
   return (
-    <View style={[styles.item, { backgroundColor: getBackgroundColor() }]}>
+    <View style={styles.item}>
       <View style={{ padding: 15 }}>
         <Ionicons name="arrow-up-outline" color="green" />
       </View>
-      <Text style={styles.rank}>{index + 1}</Text>
+      <Text style={[styles.rank, { color: getRankColor() }]}>{index + 1}</Text>
       <Image source={{ uri: item.avatar }} style={styles.avatar} />
       <View style={styles.userInfo}>
         <Text style={styles.name}>{item.name}</Text>
         <Text style={styles.username}>@{item.username}</Text>
       </View>
-      <Text style={styles.score}>{item.score}</Text>
+      <Text style={[styles.score,, { color: getRankColor() }]}>{item.score}</Text>
     </View>
   );
 };
+
 
 const LeaderboardDashboard = () => {
   const leaderboardData = [
