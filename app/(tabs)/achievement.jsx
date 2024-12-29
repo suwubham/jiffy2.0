@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   View,
   Text,
@@ -135,6 +135,7 @@ const CircularProgress = ({ progress, size = 48, strokeWidth = 4 }) => {
 
 export default function UserProfile() {
   const progressAnimation = useRef(new Animated.Value(0)).current;
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
 
   const startProgressAnimation = () => {
     // Reset the animation value
@@ -160,7 +161,10 @@ export default function UserProfile() {
   return (
     <View style={styles.container}>
       <View style={styles.headlineContainer}>
-        <Headline />
+        <Headline
+          isPopupVisible={isPopupVisible}
+          setIsPopupVisible={setIsPopupVisible}
+        />
       </View>{" "}
       <ScrollView>
         <View style={styles.profileHeader}>
@@ -251,7 +255,6 @@ const styles = StyleSheet.create({
     zIndex: 10,
     borderBottomWidth: 1,
     paddingVertical: 10,
-
     borderBottomColor: "#E0E0E0",
   },
   profileHeader: {
