@@ -5,9 +5,8 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
-
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { Montserrat_400Regular_Italic, Montserrat_500Medium, Montserrat_700Bold, Montserrat_900Black_Italic } from '@expo-google-fonts/montserrat';
+import { Montserrat_400Regular_Italic, Montserrat_500Medium, Montserrat_600SemiBold_Italic, Montserrat_700Bold, Montserrat_700Bold_Italic, Montserrat_900Black_Italic } from '@expo-google-fonts/montserrat';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -18,7 +17,8 @@ export default function RootLayout() {
     Montserrat_700Bold,
     Montserrat_500Medium,
     Montserrat_900Black_Italic,
-    Montserrat_400Regular_Italic
+    Montserrat_400Regular_Italic,
+    Montserrat_700Bold_Italic
   });
 
   useEffect(() => {
