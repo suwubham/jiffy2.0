@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 10,
     marginBottom: 10,
-    borderRadius: 20,
+    borderRadius: 25,
     elevation: 2,
   },
   rank: {
