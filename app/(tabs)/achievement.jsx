@@ -1,62 +1,102 @@
 import React from 'react';
 import { View, Text, Image, ScrollView, StyleSheet } from 'react-native';
+import Svg, { Circle } from 'react-native-svg';
+
+const CircularProgress = ({ progress, size = 48, strokeWidth = 4 }) => {
+  const radius = (size - strokeWidth) / 2;
+  const circumference = radius * 2 * Math.PI;
+  const progressOffset = circumference - (progress / 100) * circumference;
+
+  return (
+    <View style={[styles.circularContainer, { width: size, height: size }]}>
+      <Svg width={size} height={size}>
+        <Circle
+          stroke="#E0E0E0"
+          fill="none"
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          strokeWidth={strokeWidth}
+        />
+        <Circle
+          stroke="#4CAF50"
+          fill="none"
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          strokeWidth={strokeWidth}
+          strokeDasharray={circumference}
+          strokeDashoffset={progressOffset}
+          strokeLinecap="round"
+          transform={`rotate(-90 ${size / 2} ${size / 2})`}
+        />
+      </Svg>
+    </View>
+  );
+};
 
 const achievements = [
   {
     id: 1,
     title: 'Grill Guru',
-    date: 'May 1, 2022',
+    description: 'Order 50 grilled items',
     icon: require('../../assets/images/grill-icon.png'),
     medal: require('../../assets/images/gold-medal.png'),
+    progress: 100,  
   },
   {
     id: 2,
     title: 'Taste Explorer',
-    date: 'May 1, 2022',
+    description: 'Order from 10 different restaurants',
     icon: require('../../assets/images/taste-icon.png'),
     medal: require('../../assets/images/silver-medal.png'),
+    progress: 25,
   },
   {
     id: 3,
     title: 'Sushi Samurai',
-    date: 'May 1, 2022',
+    description: 'Order sushi 5 times',
     icon: require('../../assets/images/sushi-icon.png'),
     medal: require('../../assets/images/bronze-medal.png'),
+    progress: 60,
   },
   {
     id: 4,
     title: 'Pizza Prodigy',
-    date: 'May 1, 2022',
+    description: 'Order 10 pizza items',
     icon: require('../../assets/images/pizza-icon.png'),
     medal: require('../../assets/images/bronze-medal.png'),
+    progress: 45,
   },
   {
     id: 5,
     title: 'Burger Beast',
-    date: 'May 1, 2022',
+    description: 'Order Burger 10 times',
     icon: require('../../assets/images/burger-icon.png'),
     medal: require('../../assets/images/bronze-medal.png'),
+    progress: 30,
   },
   {
     id: 6,
     title: 'Momo Maniac',
-    date: 'May 1, 2022',
+    description: 'Try 10 types of momo',
     icon: require('../../assets/images/momo-icon.png'),
     medal: require('../../assets/images/bronze-medal.png'),
+    progress: 20,
   },
   {
     id: 7,
     title: 'Pasta Perfectionist',
-    date: 'May 1, 2022',
+    description: 'Try 5 types of pasta',
     icon: require('../../assets/images/pasta-icon.png'),
     medal: require('../../assets/images/bronze-medal.png'),
+    progress: 10,
   },
 ];
 
 export default function UserProfile() {
   return (
     <View style={styles.container}>
-      {/* Profile Header */}
       <View style={styles.profileHeader}>
         <Image
           source={require('../../assets/images/profile-image.png')}
@@ -65,7 +105,6 @@ export default function UserProfile() {
         <Text style={styles.userName}>New User</Text>
       </View>
 
-      {/* Level Progress */}
       <View style={styles.levelContainer}>
         <View style={styles.levelHeader}>
           <View style={styles.levelBadge}>
@@ -80,20 +119,22 @@ export default function UserProfile() {
           </View>
           <View style={styles.progressNumbers}>
             <Text style={styles.progressNumber}>2</Text>
-            <Text style={styles.progressNumber}>5200/6000</Text>
+            <Text style={styles.progressNumber}>5500/6000</Text>
             <Text style={styles.progressNumber}>3</Text>
           </View>
         </View>
       </View>
 
-      {/* Achievements List */}
       <ScrollView style={styles.achievementsList}>
         {achievements.map((achievement) => (
           <View key={achievement.id} style={styles.achievementItem}>
-            <Image source={achievement.icon} style={styles.achievementIcon} />
+            <View style={styles.achievementIconContainer}>
+              <CircularProgress progress={achievement.progress} />
+              <Image source={achievement.icon} style={styles.achievementIcon} />
+            </View>
             <View style={styles.achievementInfo}>
               <Text style={styles.achievementTitle}>{achievement.title}</Text>
-              <Text style={styles.achievementDate}>{achievement.date}</Text>
+              <Text style={styles.achievementDescription}>{achievement.description}</Text>
             </View>
             <Image source={achievement.medal} style={styles.medalIcon} />
           </View>
@@ -104,13 +145,16 @@ export default function UserProfile() {
 }
 
 const styles = StyleSheet.create({
-  container: { 
+  container: {
+    paddingTop: 50,
+    paddingHorizontal: 10,
     flex: 1,
     backgroundColor: '#fff',
+    paddingBottom: 70,
   },
   profileHeader: {
     alignItems: 'center',
-    paddingVertical: 60,
+    paddingVertical: 20,
   },
   profilePic: {
     width: 80,
@@ -123,7 +167,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   levelContainer: {
-    padding: 15,
+    padding: 16,
     backgroundColor: '#fff',
     marginHorizontal: 16,
     borderRadius: 12,
@@ -195,10 +239,18 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#E0E0E0',
   },
+  achievementIconContainer: {
+    position: 'relative',
+    width: 48,
+    height: 48,
+    marginRight: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   achievementIcon: {
     width: 30,
     height: 30,
-    marginRight: 12,
+    position: 'absolute',
   },
   achievementInfo: {
     flex: 1,
@@ -207,13 +259,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
   },
-  achievementDate: {
+  achievementDescription: {
     fontSize: 14,
     color: '#666',
     marginTop: 2,
   },
   medalIcon: {
-    width: 30,
-    height: 30,
+    width: 35,
+    height: 35,
+  },
+  circularContainer: {
+    position: 'absolute',
   },
 });
+
