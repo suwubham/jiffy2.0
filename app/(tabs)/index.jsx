@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import FloatingButton from "../../components/FloatingAction";
 
 const categories = [
   { icon: "pizza", name: "Pizza" },
@@ -264,6 +265,7 @@ const HomeScreen = () => {
         <Text style={styles.sectionTitle}>Featured Foods</Text>
 
       </ScrollView>
+      <FloatingButton/>
       <CustomPopup 
         visible={isPopupVisible}
         onClose={() => setIsPopupVisible(false)}
