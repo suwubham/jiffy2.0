@@ -58,7 +58,7 @@ export default function TabLayout() {
         name="achievement"
         options={{
           title: 'Achievement',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="medal.fill" color={color} />,
         }}
       />
     </Tabs>
