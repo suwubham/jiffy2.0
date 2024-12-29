@@ -1,98 +1,219 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { View, Text, Image, ScrollView, StyleSheet } from 'react-native';
 
-const Achievement = ({ icon, title, description, progress }) => (
-  <View style={styles.achievementContainer}>
-    <View style={styles.achievementIcon}>
-      <MaterialCommunityIcons name={icon} size={24} color="#FB8E13" />
-    </View>
-    <View style={styles.achievementInfo}>
-      <Text style={styles.achievementTitle}>{title}</Text>
-      <Text style={styles.achievementDescription}>{description}</Text>
-      <View style={styles.progressBarContainer}>
-        <View style={[styles.progressBar, { width: `${progress}%` }]} />
-      </View>
-      <Text style={styles.progressText}>{`${progress}% Complete`}</Text>
-    </View>
-  </View>
-);
+const achievements = [
+  {
+    id: 1,
+    title: 'Grill Guru',
+    date: 'May 1, 2022',
+    icon: require('../../assets/images/grill-icon.png'),
+    medal: require('../../assets/images/gold-medal.png'),
+  },
+  {
+    id: 2,
+    title: 'Taste Explorer',
+    date: 'May 1, 2022',
+    icon: require('../../assets/images/taste-icon.png'),
+    medal: require('../../assets/images/silver-medal.png'),
+  },
+  {
+    id: 3,
+    title: 'Sushi Samurai',
+    date: 'May 1, 2022',
+    icon: require('../../assets/images/sushi-icon.png'),
+    medal: require('../../assets/images/bronze-medal.png'),
+  },
+  {
+    id: 4,
+    title: 'Pizza Prodigy',
+    date: 'May 1, 2022',
+    icon: require('../../assets/images/pizza-icon.png'),
+    medal: require('../../assets/images/bronze-medal.png'),
+  },
+  {
+    id: 5,
+    title: 'Burger Beast',
+    date: 'May 1, 2022',
+    icon: require('../../assets/images/burger-icon.png'),
+    medal: require('../../assets/images/bronze-medal.png'),
+  },
+  {
+    id: 6,
+    title: 'Momo Maniac',
+    date: 'May 1, 2022',
+    icon: require('../../assets/images/momo-icon.png'),
+    medal: require('../../assets/images/bronze-medal.png'),
+  },
+  {
+    id: 7,
+    title: 'Pasta Perfectionist',
+    date: 'May 1, 2022',
+    icon: require('../../assets/images/pasta-icon.png'),
+    medal: require('../../assets/images/bronze-medal.png'),
+  },
+];
 
-const AchievementsTab = () => {
-  const achievements = [
-    { icon: 'trophy', title: 'First Order', description: 'Order your first meal', progress: 100 },
-    { icon: 'star', title: 'Rising Star', description: 'Reach level 10', progress: 60 },
-    { icon: 'medal', title: 'Veteran', description: 'Play 100 games', progress: 45 },
-    { icon: 'crown', title: 'Champion', description: 'Win 50 games', progress: 30 },
-    { icon: 'fire', title: 'On Fire', description: 'Win 5 games in a row', progress: 0 },
-  ];
-
+export default function UserProfile() {
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.header}>Achievements</Text>
-      {achievements.map((achievement, index) => (
-        <Achievement key={index} {...achievement} />
-      ))}
-    </ScrollView>
+    <View style={styles.container}>
+      {/* Profile Header */}
+      <View style={styles.profileHeader}>
+        <Image
+          source={require('../../assets/images/profile-image.png')}
+          style={styles.profilePic}
+        />
+        <Text style={styles.userName}>New User</Text>
+      </View>
+
+      {/* Level Progress */}
+      <View style={styles.levelContainer}>
+        <View style={styles.levelHeader}>
+          <View style={styles.levelBadge}>
+            <Text style={styles.levelNumber}>2</Text>
+          </View>
+          <Text style={styles.levelText}>Level 2</Text>
+        </View>
+        <Text style={styles.pointsText}>500 Points to next level</Text>
+        <View style={styles.progressBarContainer}>
+          <View style={styles.progressBarBackground}>
+            <View style={[styles.progressBar, { width: '86.6%' }]} />
+          </View>
+          <View style={styles.progressNumbers}>
+            <Text style={styles.progressNumber}>2</Text>
+            <Text style={styles.progressNumber}>5200/6000</Text>
+            <Text style={styles.progressNumber}>3</Text>
+          </View>
+        </View>
+      </View>
+
+      {/* Achievements List */}
+      <ScrollView style={styles.achievementsList}>
+        {achievements.map((achievement) => (
+          <View key={achievement.id} style={styles.achievementItem}>
+            <Image source={achievement.icon} style={styles.achievementIcon} />
+            <View style={styles.achievementInfo}>
+              <Text style={styles.achievementTitle}>{achievement.title}</Text>
+              <Text style={styles.achievementDate}>{achievement.date}</Text>
+            </View>
+            <Image source={achievement.medal} style={styles.medalIcon} />
+          </View>
+        ))}
+      </ScrollView>
+    </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: {
+  container: { 
     flex: 1,
-    backgroundColor: '#F5F5F5',
-    padding: 16,
+    backgroundColor: '#fff',
   },
-  header: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-    color: '#333',
+  profileHeader: {
+    alignItems: 'center',
+    paddingVertical: 60,
   },
-  achievementContainer: {
-    flexDirection: 'row',
-    backgroundColor: 'white',
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 16,
-    elevation: 2,
+  profilePic: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    marginBottom: 8,
+  },
+  userName: {
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  levelContainer: {
+    padding: 15,
+    backgroundColor: '#fff',
+    marginHorizontal: 16,
+    borderRadius: 12,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
+    elevation: 3,
   },
-  achievementIcon: {
-    marginRight: 16,
-    justifyContent: 'center',
-  },
-  achievementInfo: {
-    flex: 1,
-  },
-  achievementTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+  levelHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 4,
-    color: '#333',
   },
-  achievementDescription: {
+  levelBadge: {
+    width: 24,
+    height: 24,
+    backgroundColor: '#000',
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 8,
+  },
+  levelNumber: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  levelText: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  pointsText: {
     fontSize: 14,
     color: '#666',
     marginBottom: 8,
   },
   progressBarContainer: {
-    height: 6,
+    marginTop: 8,
+  },
+  progressBarBackground: {
+    height: 8,
     backgroundColor: '#E0E0E0',
-    borderRadius: 3,
-    marginBottom: 4,
+    borderRadius: 4,
+    overflow: 'hidden',
   },
   progressBar: {
-    height: 6,
-    backgroundColor: '#FB8E13',
-    borderRadius: 3,
+    height: '100%',
+    backgroundColor: '#FFA726',
+    borderRadius: 4,
   },
-  progressText: {
+  progressNumbers: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 4,
+  },
+  progressNumber: {
     fontSize: 12,
-    color: '#888',
+    color: '#666',
+  },
+  achievementsList: {
+    flex: 1,
+    marginTop: 16,
+  },
+  achievementItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
+  },
+  achievementIcon: {
+    width: 30,
+    height: 30,
+    marginRight: 12,
+  },
+  achievementInfo: {
+    flex: 1,
+  },
+  achievementTitle: {
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  achievementDate: {
+    fontSize: 14,
+    color: '#666',
+    marginTop: 2,
+  },
+  medalIcon: {
+    width: 30,
+    height: 30,
   },
 });
-export default AchievementsTab;
