@@ -17,7 +17,7 @@ const menuItems = [
     name: "Margherita Pizza",
     price: 12.99,
     description: "Classic cheese and tomato pizza",
-    image: "https://via.placeholder.com/150", // Added image URL
+    image: "https://img.delicious.com.au/9d27SNl7/del/2022/10/p89-salt-and-vinegar-crumbed-chicken-burger-176377-1.png", // Added image URL
   },
   {
     id: 2,
