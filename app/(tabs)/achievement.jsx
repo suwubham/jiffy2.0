@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 const Achievement = ({ icon, title, description, progress }) => (
   <View style={styles.achievementContainer}>
     <View style={styles.achievementIcon}>
-      <MaterialCommunityIcons name={icon} size={24} color="#4CAF50" />
+      <MaterialCommunityIcons name={icon} size={24} color="#FB8E13" />
     </View>
     <View style={styles.achievementInfo}>
       <Text style={styles.achievementTitle}>{title}</Text>
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     height: 6,
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#FB8E13',
     borderRadius: 3,
   },
   progressText: {
@@ -95,5 +95,4 @@ const styles = StyleSheet.create({
     color: '#888',
   },
 });
-
 export default AchievementsTab;
