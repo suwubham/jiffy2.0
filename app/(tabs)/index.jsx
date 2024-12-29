@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import Headline from "../../components/Headline";
 
 const categories = [
   { icon: "pizza", name: "Pizza" },
@@ -30,26 +31,32 @@ const restaurants = [
   },
   {
     name: "Hyderabadi Dum Biryani",
-    image: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735464582/bpdstnrpummetqvgogdz.jpg",
+    image:
+      "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735464582/bpdstnrpummetqvgogdz.jpg",
     location: "Thamel, Kathmandu",
     rating: "4.2",
     deliveryTime: "30-40",
   },
   {
     name: "Chiya Maya",
-    image: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735464892/ja5clpy6yb4uq6x3xpcm.webp",
+    image:
+      "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735464892/ja5clpy6yb4uq6x3xpcm.webp",
     location: "Panipokhari, Kathmandu",
     rating: "4.0",
     deliveryTime: "20-30",
-  },{
+  },
+  {
     name: "KFC",
-    image: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735465083/iyqc8vgvr5o4aiy0kaep.jpg",
+    image:
+      "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735465083/iyqc8vgvr5o4aiy0kaep.jpg",
     location: "Pulchowk, Lalitpur",
     rating: "4.0",
     deliveryTime: "20-30",
-  },{
+  },
+  {
     name: "Trisara",
-    image: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735465522/our-ambiance_nj4uf3.jpg",
+    image:
+      "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735465522/our-ambiance_nj4uf3.jpg",
     location: "Durbarmarg, Kathmandu",
     rating: "4.0",
     deliveryTime: "20-30",
@@ -78,8 +85,8 @@ const RestaurantItem = ({ restaurant }) => {
             image: restaurant.image,
             location: restaurant.location,
             rating: restaurant.rating,
-            deliveryTime: restaurant.deliveryTime
-          }, 
+            deliveryTime: restaurant.deliveryTime,
+          },
         })
       }
     >
@@ -103,8 +110,11 @@ const RestaurantItem = ({ restaurant }) => {
 const HomeScreen = () => {
   return (
     <View style={styles.container}>
+      <View style={styles.headlineContainer}>
+        <Headline />
+      </View>
       <ScrollView>
-        <View style={styles.header}>
+        {/* <View style={styles.header}>
           <Text style={styles.headerTitle}>
             Jiffy <Text style={styles.headerTitleBold}>2.0</Text>
           </Text>
@@ -126,7 +136,7 @@ const HomeScreen = () => {
               <Ionicons name="cart-outline" size={30} color="#000" />
             </TouchableOpacity>
           </View>
-        </View>
+        </View> */}
 
         <View style={styles.searchBar}>
           <Ionicons
@@ -170,6 +180,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  headlineContainer: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 10,
+    paddingVertical: 10,
+
+    borderBottomWidth: 1,
+    borderBottomColor: "#E0E0E0",
   },
   toprightview: {
     flexDirection: "row",
