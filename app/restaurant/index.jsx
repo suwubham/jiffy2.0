@@ -163,7 +163,7 @@ const RestaurantScreen = ({ route, navigation }) => {
         const { data, error } = await supabase
           .from("cart")
           .select("cart")
-          .eq("id", 1) // Assuming a single user with a fixed cart ID
+          .eq("id", 1) 
           .single();
 
         if (error) throw error;

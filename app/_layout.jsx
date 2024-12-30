@@ -18,6 +18,7 @@ export default function RootLayout() {
     Montserrat_500Medium,
     Montserrat_900Black_Italic,
     Montserrat_400Regular_Italic,
+    Montserrat_600SemiBold_Italic,
     Montserrat_700Bold_Italic
   });
 
