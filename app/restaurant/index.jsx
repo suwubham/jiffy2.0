@@ -8,10 +8,7 @@ import {
   TouchableOpacity,
   Linking,
 } from "react-native";
-import {
-  Ionicons,
-  MaterialIcons,
-} from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useLocalSearchParams } from "expo-router";
 import { supabase } from "../../utils/supabase";
 
@@ -183,46 +180,46 @@ const RestaurantScreen = ({ route, navigation }) => {
   }, []);
 
   return (
-      <View style={styles.container}>
-        <ScrollView>
-          <Image source={{ uri: image }} style={styles.restaurantImage} />
-          <View style={styles.restaurantInfo}>
-            <Text style={styles.restaurantName}>{name}</Text>
-            <Text style={styles.restaurantLocation}>{location}</Text>
-            <View style={styles.ratingContainer}>
-              <Ionicons name="star" size={16} color="#FFC107" />
-              <Text style={styles.rating}>{rating}</Text>
-              <Ionicons name="time" size={16} color="#FE8A01" />
-              <Text style={styles.deliveryTime}>{deliveryTime} min</Text>
-            </View>
+    <View style={styles.container}>
+      <ScrollView>
+        <Image source={{ uri: image }} style={styles.restaurantImage} />
+        <View style={styles.restaurantInfo}>
+          <Text style={styles.restaurantName}>{name}</Text>
+          <Text style={styles.restaurantLocation}>{location}</Text>
+          <View style={styles.ratingContainer}>
+            <Ionicons name="star" size={16} color="#FFC107" />
+            <Text style={styles.rating}>{rating}</Text>
+            <Ionicons name="time" size={16} color="#FE8A01" />
+            <Text style={styles.deliveryTime}>{deliveryTime} min</Text>
           </View>
-          <Text style={styles.menuTitle}>Menu</Text>
-          {menuItems.map((item) => (
-            <MenuItem key={item.id} item={item} cart={cart} setCart={setCart} />
-          ))}
-        </ScrollView>
-        <TouchableOpacity
-          style={styles.viewCartButton}
-          onPress={async () => {
-            console.log("Updating cart in Supabase:", cart);
-            try {
-              const { data, error } = await supabase.from("cart").upsert([
-                {
-                  id: 1,
-                  cart: JSON.stringify(cart),
-                },
-              ]);
+        </View>
+        <Text style={styles.menuTitle}>Menu</Text>
+        {menuItems.map((item) => (
+          <MenuItem key={item.id} item={item} cart={cart} setCart={setCart} />
+        ))}
+      </ScrollView>
+      <TouchableOpacity
+        style={styles.viewCartButton}
+        onPress={async () => {
+          console.log("Updating cart in Supabase:", cart);
+          try {
+            const { data, error } = await supabase.from("cart").upsert([
+              {
+                id: 1,
+                cart: JSON.stringify(cart),
+              },
+            ]);
 
-              if (error) throw error;
-              console.log("Cart updated successfully", data);
-            } catch (error) {
-              console.error("Error updating cart", error);
-            }
-          }}
-        >
-          <Text style={styles.viewCartButtonText}>Add to Cart</Text>
-        </TouchableOpacity>
-      </View>
+            if (error) throw error;
+            console.log("Cart updated successfully", data);
+          } catch (error) {
+            console.error("Error updating cart", error);
+          }
+        }}
+      >
+        <Text style={styles.viewCartButtonText}>Add to Cart</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
