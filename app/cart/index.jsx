@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { supabase } from "../../utils/supabase";
 import { useRouter } from "expo-router";
 import { useFocusEffect } from "@react-navigation/native";
@@ -13,8 +14,8 @@ import { useFocusEffect } from "@react-navigation/native";
 export default function CheckoutPage() {
   const [cartItems, setCartItems] = useState({});
   const [totalAmount, setTotalAmount] = useState(0);
-
   const [menuItems, setMenuItems] = useState([]);
+  const router = useRouter();
 
   const fetchMenuItems = async () => {
     const { data, error } = await supabase.from("menuItems").select();
@@ -44,7 +45,20 @@ export default function CheckoutPage() {
     }
   };
 
-  const calculateTotal = () => {
+  const updateCartInSupabase = async (newCart) => {
+    try {
+      const { error } = await supabase
+        .from("cart")
+        .update({ cart: JSON.stringify(newCart) })
+        .eq("id", 1); // Assuming there's only one cart row with id 1
+
+      if (error) throw error;
+    } catch (error) {
+      console.error("Error updating cart in Supabase:", error);
+    }
+  };
+
+  const calculateTotal = useCallback(() => {
     if (!menuItems || menuItems.length === 0) return;
     let total = 0;
     Object.entries(cartItems).forEach(([itemId, quantity]) => {
@@ -54,11 +68,11 @@ export default function CheckoutPage() {
       }
     });
     setTotalAmount(total);
-  };
+  }, [menuItems, cartItems]);
 
   useEffect(() => {
     calculateTotal();
-  }, [menuItems, cartItems]); // Recalculate total when menuItems or cartItems changes
+  }, [calculateTotal]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -68,6 +82,18 @@ export default function CheckoutPage() {
     }, [])
   );
 
+  const handleQuantityChange = (itemId, change) => {
+    setCartItems((prevCart) => {
+      const newCart = { ...prevCart };
+      newCart[itemId] = (newCart[itemId] || 0) + change;
+      if (newCart[itemId] <= 0) {
+        delete newCart[itemId];
+      }
+      updateCartInSupabase(newCart);
+      return newCart;
+    });
+  };
+
   const renderCartItems = () => {
     return Object.entries(cartItems).map(([itemId, quantity]) => {
       const item = menuItems.find((item) => item.id === parseInt(itemId));
@@ -75,7 +101,21 @@ export default function CheckoutPage() {
         return (
           <View key={itemId} style={styles.cartItem}>
             <Text style={styles.itemName}>{item.name}</Text>
-            <Text style={styles.itemQuantity}>x{quantity}</Text>
+            <View style={styles.quantityContainer}>
+              <TouchableOpacity
+                onPress={() => handleQuantityChange(itemId, -1)}
+                style={styles.quantityButton}
+              >
+                <Ionicons name="remove" size={24} color="#FE8A01" />
+              </TouchableOpacity>
+              <Text style={styles.itemQuantity}>{quantity}</Text>
+              <TouchableOpacity
+                onPress={() => handleQuantityChange(itemId, 1)}
+                style={styles.quantityButton}
+              >
+                <Ionicons name="add" size={24} color="#FE8A01" />
+              </TouchableOpacity>
+            </View>
             <Text style={styles.itemPrice}>Rs. {item.price * quantity}</Text>
           </View>
         );
@@ -83,8 +123,7 @@ export default function CheckoutPage() {
       return null;
     });
   };
-  
-  const router = useRouter();
+
   const handleCheckout = () => {
     if (totalAmount > 2000) {
       router.push({
@@ -108,7 +147,9 @@ export default function CheckoutPage() {
         <Text style={styles.totalAmount}>Rs. {totalAmount}</Text>
       </View>
       <TouchableOpacity style={styles.checkoutButton} onPress={handleCheckout}>
-        <Text style={styles.checkoutButtonText}>{totalAmount > 2000 ? "Proceed to Spin" : "Proceed to Pay"}</Text>
+        <Text style={styles.checkoutButtonText}>
+          {totalAmount > 2000 ? "Proceed to Spin" : "Proceed to Pay"}
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -148,8 +189,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Montserrat_500Medium",
   },
-  itemQuantity: {
+  quantityContainer: {
     flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  quantityButton: {
+    padding: 5,
+  },
+  itemQuantity: {
     fontSize: 16,
     textAlign: "center",
     fontFamily: "Montserrat_500Medium",
@@ -190,3 +239,4 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat_900Black_Italic",
   },
 });
+

@@ -17,6 +17,7 @@ const RestaurantScreen = ({ route, navigation }) => {
   const { name, image, location, rating, deliveryTime } =
     useLocalSearchParams();
   const [cart, setCart] = useState({});
+  
 
   const [menuItems, setMenuItems] = useState([]);
 
