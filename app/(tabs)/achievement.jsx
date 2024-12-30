@@ -24,7 +24,7 @@ const achievements = [
     medal: require("../../assets/images/gold-medal.png"),
     progress: 100,
   },
-  {
+  { 
     id: 2,
     title: "Taste Explorer",
     description: "Order from 10 different restaurants",
@@ -136,7 +136,6 @@ export default function UserProfile() {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
   const startProgressAnimation = () => {
-    // Reset the animation value
     progressAnimation.setValue(0);
     Animated.timing(progressAnimation, {
       toValue: 86.6,
@@ -145,12 +144,10 @@ export default function UserProfile() {
     }).start();
   };
 
-  // Use useFocusEffect instead of useEffect to handle navigation focus
   useFocusEffect(
     React.useCallback(() => {
       startProgressAnimation();
       return () => {
-        // Optional cleanup if needed
       };
     }, [])
   );
@@ -164,14 +161,7 @@ export default function UserProfile() {
           setIsPopupVisible={setIsPopupVisible}
         />
       </View>
-      <ScrollView>
-        <View style={styles.profileHeader}>
-          <Image
-            source={require("../../assets/images/profile-image.png")}
-            style={styles.profilePic}
-          />
-          <Text style={styles.userName}>New User</Text>
-        </View>
+      <ScrollView style={{marginTop: 20}}>
         <View style={styles.levelContainer}>
           <View style={styles.levelHeader}>
             <View style={styles.levelBadge}>
@@ -288,16 +278,17 @@ const styles = StyleSheet.create({
   levelNumber: {
     color: "#fff",
     fontSize: 14,
-    fontWeight: "600",
+    fontFamily: "Montserrat_700Bold",
   },
   levelText: {
     fontSize: 16,
-    fontWeight: "600",
+    fontFamily: "Montserrat_700Bold",
   },
   pointsText: {
     fontSize: 14,
     color: "#666",
     marginBottom: 8,
+    fontFamily: "Montserrat_500Medium",
   },
   progressBarContainer: {
     marginTop: 8,
@@ -321,6 +312,7 @@ const styles = StyleSheet.create({
   progressNumber: {
     fontSize: 12,
     color: "#666",
+    fontFamily: "Montserrat_500Medium"
   },
   achievementsList: {
     flex: 1,
@@ -352,12 +344,14 @@ const styles = StyleSheet.create({
   },
   achievementTitle: {
     fontSize: 16,
-    fontWeight: "500",
+    fontFamily: "Montserrat_700Bold",
   },
+  
   achievementDescription: {
     fontSize: 14,
     color: "#666",
     marginTop: 2,
+    fontFamily: "Montserrat_400Regular_Italic",
   },
   medalIcon: {
     width: 35,
