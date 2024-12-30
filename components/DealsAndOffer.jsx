@@ -12,33 +12,33 @@ const largeItemSize = gridWidth;
 const deals = [
   { 
     id: 1, 
-    title: '50% Off', 
-    description: 'On your first order', 
-    image: 'https://res.cloudinary.com/dckl9mhbs/image/upload/v1735465522/50-percent-off_nj4uf3.jpg', 
+    title: '50% Off Feast', 
+    description: 'Dive into a world of flavors at half the price!', 
+    image: 'https://www.foodpleasureandhealth.com/wp-content/uploads/2017/11/IMG_1847-1536x1024.jpg', 
     size: 'large',
     restaurant: 'The Gardens'
   },
   { 
     id: 2, 
     title: 'Free Delivery', 
-    description: 'On orders above $20', 
-    image: 'https://res.cloudinary.com/dckl9mhbs/image/upload/v1735465522/free-delivery_nj4uf3.jpg', 
+    description: 'Dine in without stepping out! ', 
+    image: 'https://scontent.fktm20-1.fna.fbcdn.net/v/t39.30808-6/458498651_374898515664221_6842182959488944759_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_ohc=qqZ3PzzoitYQ7kNvgHxAjRv&_nc_oc=AdhL4m4UQlc6EBWPqOp8Q8pvDPYl4OVY-6dapw77YypmETcVmeJ6QZzvikOulbzl9Pk&_nc_zt=23&_nc_ht=scontent.fktm20-1.fna&_nc_gid=AQ7N5PqpMkJ_7-oIZhAb0Eo&oh=00_AYA-yEEYYGOO8x1Vby2VOo1PcCN04gM91B1iX7Dv-eyc-g&oe=67780F57', 
     size: 'small',
-    restaurant: 'KFC'
+    restaurant: 'Selected restaurants'
   },
   { 
     id: 3, 
     title: 'Buy 1 Get 1', 
-    description: 'On selected items', 
-    image: 'https://res.cloudinary.com/dckl9mhbs/image/upload/v1735465522/buy-1-get-1_nj4uf3.jpg', 
+    description: 'Double the delight at no extra cost!', 
+    image: 'https://assets.winni.in/product/primary/2022/11/77690.jpeg?dpr=1&w=500', 
     size: 'small',
-    restaurant: 'Chiya Maya'
+    restaurant: 'Nanglo Restaurant'
   },
   { 
     id: 4, 
     title: 'Happy Hour', 
     description: '20% off from 2-5 PM', 
-    image: 'https://res.cloudinary.com/dckl9mhbs/image/upload/v1735465522/happy-hour_nj4uf3.jpg', 
+    image: 'https://plus.unsplash.com/premium_photo-1673108852141-e8c3c22a4a22?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', 
     size: 'large',
     restaurant: 'Trisara'
   },
