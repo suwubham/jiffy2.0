@@ -1,23 +1,54 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, ActivityIndicator, TextInput } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+  ActivityIndicator,
+  TextInput,
+  Image,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const questions = [
   {
-    text: "How are you feeling right now?",
-    options: ["Happy", "Sad", "Stressed", "Relaxed", "Energetic", "Tired"],
+    text: "How would you describe your energy level today?",
+    options: ["Energized", "Tired", "Somewhere in between"],
   },
   {
-    text: "What kind of food are you in the mood for?",
-    options: ["Sweet", "Savory", "Spicy", "Indulgent", "Refreshing"],
+    text: "What’s the first thing that comes to mind when you think about how your day has been so far?",
+    options: ["Productive", "Challenging", "Relaxing", "Stressful"],
+  },
+  {
+    text: "Are you feeling more optimistic or stressed about the tasks ahead of you?",
+    options: ["Optimistic", "Stressed", "Neutral"],
+  },
+  {
+    text: "On a scale from 1 to 10, how content are you with your current situation?",
+    options: [
+      " 1-3 (Not content)",
+      " 4-6 (Somewhat content)",
+      "7-9 (Content)",
+      "10 (Very content)",
+    ],
+  },
+  {
+    text: "Have you experienced any moments of joy or frustration today? If so, what triggered them?",
+    options: [
+      " Joy (e.g., accomplishment, surprise)",
+      " Frustration (e.g., setbacks, delays)",
+      "Neither",
+    ],
   },
   {
     text: "Do you have any dietary restrictions or preferences?",
-    options: ["Vegetarian", "Vegan", "Gluten-free", "No restrictions"],
-  },
-  {
-    text: "Do you have a preference for cuisine?",
-    options: ["Indian", "Mexican", "Thai", "Chinese", "No preference"],
+    options: [
+      "Vegetarian  🥦",
+      "Vegan  🥑",
+      "Gluten-free 🍞🚫",
+      "No restrictions  🍽️",
+    ],
   },
   {
     text: "Anything further you wish to add?",
@@ -26,31 +57,43 @@ const questions = [
 ];
 
 const getFoodRecommendation = async (answers) => {
-  const response = await fetch("http://192.168.16.49:8000/get-food-suggestion", {
-    method: "POST",
-    body: JSON.stringify({ answers }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await fetch(
+    "http://192.168.16.49:8000/get-food-suggestion",
+    {
+      method: "POST",
+      body: JSON.stringify({ answers }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  function cleanAndParseJSON(apiResponse) {
+    let cleanedResponse = apiResponse.replace(/\`\`\`json|\`\`\`/g, "");
+    cleanedResponse = cleanedResponse.trim().replace(/\n/g, "");
+    try {
+      const parsedData = JSON.parse(cleanedResponse);
+      return parsedData;
+    } catch (error) {
+      console.error("Error parsing JSON:", error);
+      return null;
+    }
+  }
 
   const data = await response.json();
-  console.log(data.suggestion);
-
-  return data.suggestion;
+  const parsedData = cleanAndParseJSON(data.suggestion);
+  return parsedData;
 };
 
 const FoodRecommendationScreen = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
-  const [textInput, setTextInput] = useState('');
-  const [recommendation, setRecommendation] = useState([]);
+  const [textInput, setTextInput] = useState("");
+  const [recommendation, setRecommendation] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleAnswer = async (answer) => {
     const newAnswers = [...answers, answer];
     setAnswers(newAnswers);
-
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
@@ -87,7 +130,7 @@ const FoodRecommendationScreen = () => {
     setCurrentQuestion(0);
     setAnswers([]);
     setRecommendation([]);
-    setTextInput('');
+    setTextInput("");
   };
 
   if (isLoading) {
@@ -95,18 +138,34 @@ const FoodRecommendationScreen = () => {
       <SafeAreaView style={styles.container}>
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#4a90e2" />
-          <Text style={styles.loadingText}>Getting your food recommendation...</Text>
+          <Text style={styles.loadingText}>
+            Getting your food recommendation...
+          </Text>
         </View>
       </SafeAreaView>
     );
   }
 
-  if (recommendation.length > 0) {
+  if (recommendation) {
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <Text style={styles.title}>Your Food Recommendations</Text>
-          <Text style={styles.recommendationText}>{recommendation}</Text>
+          <Text style={styles.greetingText}>{recommendation.greeting}</Text>
+          {recommendation.recommendations.map((item, index) => (
+            <View key={index} style={styles.recommendationItem}>
+              <Image source={{ uri: item.image }} style={styles.foodImage} />
+              <Text style={styles.dishName}>{item.dish_name}</Text>
+              <Text style={styles.description}>{item.description}</Text>
+              <Text style={styles.price}>Rs{item.price}</Text>
+              <TouchableOpacity
+                style={[styles.button, { marginTop: 10 }]}
+                onPress={console.log("Add to Cart")}
+              >
+                <Text style={styles.buttonText}>Add to Cart</Text>
+              </TouchableOpacity>
+            </View>
+          ))}
           <TouchableOpacity style={styles.button} onPress={resetQuiz}>
             <Text style={styles.buttonText}>Start Over</Text>
           </TouchableOpacity>
@@ -118,8 +177,11 @@ const FoodRecommendationScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <Text style={styles.title}>AI Food Recommender</Text>
-        <Text style={styles.questionText}>{questions[currentQuestion].text}</Text>
+        <Text style={styles.title}>Mood Anusar Ko Food</Text>
+        <Text style={styles.subtitle}>An AI powered Food Recommender</Text>
+        <Text style={styles.questionText}>
+          {questions[currentQuestion].text}
+        </Text>
         {questions[currentQuestion].isTextBox ? (
           <View>
             <TextInput
@@ -144,7 +206,9 @@ const FoodRecommendationScreen = () => {
             </TouchableOpacity>
           ))
         )}
-        <Text style={styles.progressText}>Question {currentQuestion + 1} of {questions.length}</Text>
+        <Text style={styles.progressText}>
+          Question {currentQuestion + 1} of {questions.length}
+        </Text>
       </ScrollView>
     </SafeAreaView>
   );
@@ -153,73 +217,116 @@ const FoodRecommendationScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: "#f0f0f0",
   },
   scrollContent: {
-    flexGrow: 1,
-    justifyContent: 'center',
+    // flexGrow: 1,
+    justifyContent: "center",
     padding: 20,
   },
   textInput: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderRadius: 8,
     padding: 10,
     fontSize: 16,
     marginBottom: 20,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   title: {
-    textAlign: 'center',
-    marginBottom: 20,
     fontSize: 28,
-    fontWeight: "400",
     color: "#FE8A01",
     fontFamily: "Montserrat_900Black_Italic",
   },
+  subtitle: {
+    color: "#666",
+    marginBottom: 20,
+    fontSize: 12,
+    fontFamily: "Montserrat_400Regular_Italic",
+  },
   questionText: {
+    marginTop: 150,
     fontSize: 18,
     marginBottom: 20,
-    textAlign: 'center',
-    color: '#444',
-    fontFamily: "Montserrat_500Medium"
+    textAlign: "center",
+    color: "#444",
+    fontFamily: "Montserrat_500Medium",
   },
   button: {
-    backgroundColor: '#FE8A01',
+    backgroundColor: "#FE8A01",
     padding: 15,
     borderRadius: 8,
     marginBottom: 10,
-
   },
   buttonText: {
-    color: 'white',
+    color: "white",
     fontSize: 16,
-    textAlign: 'center',
-    fontFamily: "Montserrat_500Medium"
+    textAlign: "center",
+    fontFamily: "Montserrat_500Medium",
   },
   progressText: {
     marginTop: 20,
-    textAlign: 'center',
-    color: '#666',
-        fontFamily: "Montserrat_500Medium"
+    textAlign: "center",
+    color: "#666",
+    fontFamily: "Montserrat_500Medium",
   },
   recommendationText: {
     fontSize: 18,
     marginBottom: 10,
-    color: '#4a90e2',
-    fontFamily: "Montserrat_500Medium"
+    color: "#4a90e2",
+    fontFamily: "Montserrat_500Medium",
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   loadingText: {
     marginTop: 20,
     fontSize: 16,
-    color: '#666',
+    color: "#666",
+  },
+  greetingText: {
+    fontSize: 18,
+    marginTop: 20,
+    marginBottom: 20,
+    color: "#444",
+    fontFamily: "Montserrat_500Medium",
+  },
+  recommendationItem: {
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    padding: 15,
+    marginBottom: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  foodImage: {
+    width: "100%",
+    height: 200,
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  dishName: {
+    fontSize: 20,
+    marginBottom: 5,
+    color: "#FE8A01",
+    fontFamily: "Montserrat_700Bold",
+  },
+  description: {
+    fontSize: 16,
+    marginBottom: 5,
+    color: "#444",
+    fontFamily: "Montserrat_500Medium",
+  },
+  price: {
+    fontSize: 18,
+    color: "#4a90e2",
+    fontFamily: "Montserrat_600SemiBold",
   },
 });
 
 export default FoodRecommendationScreen;
-
