@@ -10,6 +10,9 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import Headline from "../../components/Headline";
+import Avatar, { genConfig } from "@zamplyy/react-native-nice-avatar";
+import { supabase } from "../../utils/supabase";
+import { useFocusEffect } from "@react-navigation/native";
 
 const Profile = () => {
   const user = {
@@ -52,6 +55,31 @@ const Profile = () => {
   const router = useRouter();
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
+  const config = genConfig({ sex: "male" });
+  const [seed, setSeed] = useState("default");
+
+  const regenerateAvatar = () => {
+    setSeed(Math.random().toString(36).substring(7));
+  };
+
+  const [leaderboard, setLeaderboard] = useState([]);
+
+  const fetchLeaderboard = async () => {
+    const { data, error } = await supabase.from("leaderboard").select();
+    if (error) {
+      console.error("Error fetching leaderboard:", error);
+    } else {
+      setLeaderboard(data);
+    }
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchLeaderboard();
+      return () => {};
+    }, [])
+  );
+
   return (
     <View style={styles.container}>
       <View style={styles.headlineContainer}>
@@ -62,13 +90,18 @@ const Profile = () => {
       </View>
       <ScrollView>
         <View style={styles.header}>
-          <Image source={{ uri: user.avatar }} style={styles.avatar} />
+          {/* <Image source={{ uri: user.avatar }} style={styles.avatar} />
+           */}
+          <Avatar style={styles.avatar} {...config} />
+
           <Text style={styles.name}>{user.name}</Text>
           <TouchableOpacity
-            // style={styles.restaurantItem}
             onPress={() =>
               router.push({
                 pathname: "/leaderboard",
+                params: {
+                  leaderboard: JSON.stringify(leaderboard),
+                },
               })
             }
             style={styles.leaderboardIcon}
@@ -80,12 +113,7 @@ const Profile = () => {
             ></Ionicons>
           </TouchableOpacity>
           <TouchableOpacity
-            // style={styles.restaurantItem}
-            onPress={() =>
-              router.push({
-                pathname: "/avatar",
-              })
-            }
+            onPress={regenerateAvatar}
             style={styles.avatarIcon}
           >
             <Ionicons name="happy-outline" size={25} color="#fe8a01"></Ionicons>
@@ -260,7 +288,6 @@ const styles = StyleSheet.create({
   },
   orderContent: {
     fontSize: 18,
-    // fontWeight: "bold",
     fontFamily: "Montserrat_400Regular_Italic",
     marginBottom: 10,
   },
@@ -274,7 +301,6 @@ const styles = StyleSheet.create({
   },
   orderItems: {
     flexDirection: "column",
-    // alignItems: "center",
     marginRight: 15,
   },
   orderStatText: {

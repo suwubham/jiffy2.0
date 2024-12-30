@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, {  useState, useRef } from "react";
 import {
   View,
   Text,
@@ -12,67 +12,9 @@ import Svg, { Circle } from "react-native-svg";
 import { useFocusEffect } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import Headline from "../../components/Headline";
+import { supabase } from "../../utils/supabase";
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
-
-const achievements = [
-  {
-    id: 1,
-    title: "Grill Guru",
-    description: "Order 50 grilled items",
-    icon: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735556532/grill-icon_c2luyj.png",
-    medal: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735556525/gold-medal_jcfdmy.png",
-    progress: 90,
-  },
-  { 
-    id: 2,
-    title: "Taste Explorer",
-    description: "Order from 10 different restaurants",
-    icon: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735556532/taste-icon_vowwhk.png",
-    medal: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735556525/silver-medal_ed6mdz.png",
-    progress: 25,
-  },
-  {
-    id: 3,
-    title: "Sushi Samurai",
-    description: "Order sushi 5 times",
-    icon: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735556532/taste-icon_vowwhk.png",
-    medal: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735556525/bronze-medal_gdf3uy.png",
-    progress: 80,
-  },
-  {
-    id: 4,
-    title: "Pizza Prodigy",
-    description: "Order 10 pizza items",
-    icon: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735556525/pizza-icon_icvinc.png",
-    medal: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735556525/bronze-medal_gdf3uy.png",
-    progress: 45,
-  },
-  {
-    id: 5,
-    title: "Burger Beast",
-    description: "Order Burger 10 times",
-    icon: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735556525/burger-icon_tgw6pp.png",
-    medal: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735556525/bronze-medal_gdf3uy.png",
-    progress: 30,
-  },
-  {
-    id: 6,
-    title: "Momo Maniac",
-    description: "Try 10 types of momo",
-    icon:"https://res.cloudinary.com/dckl9mhbs/image/upload/v1735556532/momo-icon_bumcm7.png",
-    medal: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735556525/bronze-medal_gdf3uy.png",
-    progress: 20,
-  },
-  {
-    id: 7,
-    title: "Pasta Perfectionist",
-    description: "Try 5 types of pasta",
-    icon: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735556532/pasta-icon_qna1pk.png",
-    medal: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735556525/bronze-medal_gdf3uy.png",
-    progress: 10,
-  },
-];
 
 const CircularProgress = ({ progress, size = 48, strokeWidth = 4 }) => {
   const animatedProgress = useRef(new Animated.Value(0)).current;
@@ -92,7 +34,6 @@ const CircularProgress = ({ progress, size = 48, strokeWidth = 4 }) => {
     React.useCallback(() => {
       startAnimation();
       return () => {
-        // Optional cleanup if needed
       };
     }, [progress])
   );
@@ -135,6 +76,17 @@ export default function UserProfile() {
   const progressAnimation = useRef(new Animated.Value(0)).current;
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
+  const [achievements, setAchievements] = useState([]);
+
+  const fetchAchievements = async () => {
+    const { data, error } = await supabase.from("achievements").select();
+    if (error) {
+      console.error("Error fetching achievements:", error);
+    } else {
+      setAchievements(data);
+    }
+  };
+
   const startProgressAnimation = () => {
     progressAnimation.setValue(0);
     Animated.timing(progressAnimation, {
@@ -147,8 +99,8 @@ export default function UserProfile() {
   useFocusEffect(
     React.useCallback(() => {
       startProgressAnimation();
-      return () => {
-      };
+      fetchAchievements();
+      return () => {};
     }, [])
   );
 
@@ -161,7 +113,7 @@ export default function UserProfile() {
           setIsPopupVisible={setIsPopupVisible}
         />
       </View>
-      <ScrollView style={{marginTop: 20}}>
+      <ScrollView style={{ marginTop: 20 }}>
         <View style={styles.levelContainer}>
           <View style={styles.levelHeader}>
             <View style={styles.levelBadge}>
@@ -198,7 +150,6 @@ export default function UserProfile() {
                 <View style={styles.achievementIconContainer}>
                   <CircularProgress progress={achievement.progress} />
                   <Image
-                    // source={achievement.icon}
                     source={{ uri: achievement.icon }}
                     style={styles.achievementIcon}
                   />
@@ -211,7 +162,10 @@ export default function UserProfile() {
                     {achievement.description}
                   </Text>
                 </View>
-                <Image source={{ uri : achievement.medal}} style={styles.medalIcon} />
+                <Image
+                  source={{ uri: achievement.medal }}
+                  style={styles.medalIcon}
+                />
               </View>
             </TouchableOpacity>
           ))}
@@ -236,7 +190,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderBottomColor: "#E0E0E0",
   },
-  
+
   profileHeader: {
     alignItems: "center",
     paddingVertical: 20,
@@ -313,7 +267,7 @@ const styles = StyleSheet.create({
   progressNumber: {
     fontSize: 12,
     color: "#666",
-    fontFamily: "Montserrat_500Medium"
+    fontFamily: "Montserrat_500Medium",
   },
   achievementsList: {
     flex: 1,
@@ -347,7 +301,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Montserrat_700Bold",
   },
-  
+
   achievementDescription: {
     fontSize: 14,
     color: "#666",
