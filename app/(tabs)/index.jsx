@@ -15,6 +15,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import FloatingButton from "../../components/FloatingAction";
 import DealsAndOffers from "../../components/DealsAndOffer";
+import { supabase } from "../../utils/supabase";
+import { useFocusEffect } from "@react-navigation/native";
 
 const categories = [
   { icon: "pizza", name: "Pizza" },
@@ -22,49 +24,6 @@ const categories = [
   { icon: "cafe", name: "Coffee" },
   { icon: "restaurant", name: "Sushi" },
   { icon: "ice-cream", name: "Dessert" },
-];
-
-const restaurants = [
-  {
-    name: "The Gardens",
-    image:
-      "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735458917/thegardens_phepsj.jpg",
-    location: "Panipokhari, Kathmandu",
-    rating: "4.5",
-    deliveryTime: "25-35",
-  },
-  {
-    name: "Hyderabadi Dum Biryani",
-    image:
-      "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735464582/bpdstnrpummetqvgogdz.jpg",
-    location: "Thamel, Kathmandu",
-    rating: "4.2",
-    deliveryTime: "30-40",
-  },
-  {
-    name: "Chiya Maya",
-    image:
-      "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735464892/ja5clpy6yb4uq6x3xpcm.webp",
-    location: "Panipokhari, Kathmandu",
-    rating: "4.0",
-    deliveryTime: "20-30",
-  },
-  {
-    name: "KFC",
-    image:
-      "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735465083/iyqc8vgvr5o4aiy0kaep.jpg",
-    location: "Pulchowk, Lalitpur",
-    rating: "4.0",
-    deliveryTime: "20-30",
-  },
-  {
-    name: "Trisara",
-    image:
-      "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735465522/our-ambiance_nj4uf3.jpg",
-    location: "Durbarmarg, Kathmandu",
-    rating: "4.0",
-    deliveryTime: "20-30",
-  },
 ];
 
 const CategoryItem = ({ icon, name }) => (
@@ -116,6 +75,25 @@ const RestaurantItem = ({ restaurant }) => {
 const HomeScreen = () => {
   const router = useRouter();
   const [isPopupVisible, setIsPopupVisible] = useState(false);
+
+  const [restaurants, setResturant] = useState([]);
+
+  const fetchRestaurant = async () => {
+    const { data, error } = await supabase.from("restaurant").select();
+    if (error) {
+      console.error("Error fetching restaurants:", error);
+    } else {
+      setResturant(data);
+    }
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchRestaurant();
+      return () => {};
+    }, [])
+  );
+
   return (
     <View style={styles.container}>
       <View style={styles.headlineContainer}>
