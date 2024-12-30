@@ -79,6 +79,18 @@ const Profile = () => {
               color="#fe8a01"
             ></Ionicons>
           </TouchableOpacity>
+          <TouchableOpacity
+            // style={styles.restaurantItem}
+            onPress={() =>
+              router.push({
+                pathname: "/avatar",
+              })
+            }
+            style={styles.avatarIcon}
+          >
+            <Ionicons name="happy-outline" size={25} color="#fe8a01"></Ionicons>
+          </TouchableOpacity>
+
           <Text style={styles.username}>{user.username}</Text>
           <Text style={styles.bio}>{user.bio}</Text>
           <View style={styles.statsContainer}>
@@ -148,6 +160,20 @@ const styles = StyleSheet.create({
   leaderboardIcon: {
     position: "absolute",
     top: 10,
+    right: 10,
+    backgroundColor: "#fff",
+    padding: 10,
+    borderRadius: 25,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.84,
+    elevation: 5,
+    zIndex: 10,
+  },
+  avatarIcon: {
+    position: "absolute",
+    top: 70,
     right: 10,
     backgroundColor: "#fff",
     padding: 10,

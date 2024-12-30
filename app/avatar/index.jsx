@@ -1,97 +1,157 @@
-import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Button } from 'react-native';
+// import React, { useState } from "react";
+// import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+// import Avatar, { genConfig } from "@zamplyy/react-native-nice-avatar";
+
+// const AvatarSelection = () => {
+//   const config = genConfig({ sex: "male" });
+//   const [seed, setSeed] = useState("default");
+
+//   const regenerateAvatar = () => {
+//     setSeed(Math.random().toString(36).substring(7)); // Generate new random seed
+//   };
+//   return (
+//     <View style={styles.parent}>
+//       <Text style={styles.title}>Select Your Avatar</Text>
+
+//       <Avatar style={{ width: 150, height: 150 }} {...config} />
+//       <View style={styles.buttonContainer}>
+//         <TouchableOpacity
+//           onPress={regenerateAvatar}
+//           style={[styles.button, { backgroundColor: "#fe8a01" }]}
+//         >
+//           <Text style={styles.buttonText}>Regenerate Avatar</Text>
+//         </TouchableOpacity>
+//         <TouchableOpacity
+//           onPress={regenerateAvatar}
+//           style={[styles.button, { backgroundColor: "green" }]}
+//         >
+//           <Text style={styles.buttonText}>Choose Avatar</Text>
+//         </TouchableOpacity>
+//       </View>
+//     </View>
+//   );
+// };
+
+// export default AvatarSelection;
+
+// const styles = StyleSheet.create({
+//   parent: {
+//     flex: 1,
+//     justifyContent: "space-evenly",
+//     alignItems: "center",
+//     backgroundColor: "#F5F5F5",
+//     padding: 20,
+//   },
+//   title: {
+//     fontSize: 30,
+//     color: "#fe8a01",
+//     fontFamily: "Montserrat_900Black_Italic",
+//     marginBottom: 20,
+//   },
+//   buttonContainer: {
+//     flex: 1,
+//     flexDirection: "row",
+//     gap: 30,
+//     justifyContent: "space-evenly",
+//     alignItems: "center",
+//     backgroundColor: "#F5F5F5",
+//   },
+//   button: {
+//     // marginTop: 20,
+//     padding: 10,
+//     borderRadius: 5,
+//   },
+//   buttonText: {
+//     color: "#fff",
+//     fontSize: 16,
+//     fontWeight: "bold",
+//   },
+// });
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import Avatar, { genConfig } from "@zamplyy/react-native-nice-avatar";
 
 const AvatarSelection = () => {
-  const [avatar, setAvatar] = useState('https://via.placeholder.com/150'); // Replace with initial avatar URL
+  const config = genConfig({ sex: "male" });
+  const [seed, setSeed] = useState("default");
 
   const regenerateAvatar = () => {
-    // Logic to regenerate avatar (placeholder for now)
-    const randomAvatar = `https://api.dicebear.com/6.x/adventurer/svg?seed=${Math.random()}`;
-    setAvatar(randomAvatar);
+    setSeed(Math.random().toString(36).substring(7));
   };
 
-  const saveAvatar = () => {
-    // Logic to save the selected avatar
-    alert('Avatar saved!');
-  };
+  console.log(config);
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Select Your Avatar</Text>
-      <Text style={styles.subtitle}>Choose your avatar or click "Regenerate" for a new one.</Text>
 
-      <View style={styles.avatarContainer}>
-        <Image source={{ uri: avatar }} style={styles.avatar} />
-        <TouchableOpacity onPress={regenerateAvatar} style={styles.regenerateButton}>
-          <Text style={styles.regenerateText}>⟳</Text>
+      <Avatar style={styles.avatar} {...config} />
+
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          onPress={regenerateAvatar}
+          style={[styles.button, styles.regenerateButton]}
+        >
+          <Text style={styles.buttonText}>Regenerate</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={regenerateAvatar}
+          style={[styles.button, styles.chooseButton]}
+        >
+          <Text style={styles.buttonText}>Choose Avatar</Text>
         </TouchableOpacity>
       </View>
-
-      <TouchableOpacity style={styles.saveButton} onPress={saveAvatar}>
-        <Text style={styles.saveText}>Save</Text>
-      </TouchableOpacity>
     </View>
   );
 };
 
+export default AvatarSelection;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5F5F5',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F5F5F5",
     padding: 20,
   },
   title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    color: '#333',
-  },
-  subtitle: {
-    fontSize: 16,
-    textAlign: 'center',
-    color: '#777',
-    marginBottom: 20,
-  },
-  avatarContainer: {
-    position: 'relative',
-    marginBottom: 20,
+    fontSize: 28,
+    color: "#fe8a01",
+    fontFamily: "Montserrat_900Black_Italic",
+    marginBottom: 30,
+    textAlign: "center",
   },
   avatar: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    borderWidth: 2,
-    borderColor: '#ddd',
+    width: 150,
+    height: 150,
+    marginBottom: 30,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    gap: 15,
+    justifyContent: "space-between",
+    marginTop: 20,
+  },
+  button: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 25,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   regenerateButton: {
-    position: 'absolute',
-    bottom: -10,
-    alignSelf: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 30,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    elevation: 2,
+    backgroundColor: "#fe8a01",
   },
-  regenerateText: {
-    fontSize: 18,
-    color: '#333',
+  chooseButton: {
+    backgroundColor: "green",
   },
-  saveButton: {
-    backgroundColor: '#4CAF50',
-    paddingVertical: 10,
-    paddingHorizontal: 50,
-    borderRadius: 25,
-    elevation: 3,
-  },
-  saveText: {
-    color: '#fff',
+  buttonText: {
+    color: "#fff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
-
-export default AvatarSelection;
