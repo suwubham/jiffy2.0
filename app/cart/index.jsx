@@ -196,6 +196,7 @@ export default function CheckoutPage() {
       <ScrollView style={styles.cartList}>
         {renderCartItems()}
       </ScrollView>
+      <Text style={styles.subtitle}>Orders above Rs. 2000 get a chance to try their luck in the wheel of fortune.</Text>
       <View style={styles.totalContainer}>
         <Text style={styles.totalText}>Total Amount:</Text>
         <Text style={styles.totalAmount}>Rs. {totalAmount}</Text>
@@ -203,6 +204,7 @@ export default function CheckoutPage() {
       <TouchableOpacity style={styles.checkoutButton} onPress={handleCheckout}>
         <Text style={styles.checkoutButtonText}>Proceed to Payment</Text>
       </TouchableOpacity>
+
     </View>
   );
 }
@@ -214,11 +216,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    fontSize: 20,
+    fontFamily: "Montserrat_900Black_Italic",
+    fontWeight: "400",
+    color: "#FE8A01",
+  },
+  subtitle: {
+    color: "#666",
+    fontSize: 12,
+    fontFamily: "Montserrat_400Regular_Italic",
   },
   cartList: {
+    marginTop: 20,
     flex: 1,
   },
   cartItem: {
@@ -232,16 +241,19 @@ const styles = StyleSheet.create({
   itemName: {
     flex: 2,
     fontSize: 16,
+    fontFamily:"Montserrat_500Medium"
   },
   itemQuantity: {
     flex: 1,
     fontSize: 16,
     textAlign: 'center',
+    fontFamily:"Montserrat_500Medium"
   },
   itemPrice: {
     flex: 1,
     fontSize: 16,
     textAlign: 'right',
+    fontFamily:"Montserrat_500Medium"
   },
   totalContainer: {
     flexDirection: 'row',
@@ -254,23 +266,24 @@ const styles = StyleSheet.create({
   },
   totalText: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontFamily: "Montserrat_500Medium"
   },
   totalAmount: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontFamily: "Montserrat_700Bold"
   },
   checkoutButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#FE8A01',
     padding: 15,
     borderRadius: 5,
     alignItems: 'center',
     marginTop: 20,
+
   },
   checkoutButtonText: {
     color: 'white',
     fontSize: 18,
-    fontWeight: 'bold',
+    fontFamily: "Montserrat_900Black_Italic"
   },
 });
 

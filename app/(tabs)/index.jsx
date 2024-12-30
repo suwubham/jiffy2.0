@@ -269,11 +269,10 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat_500Medium",
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: 23,
     fontFamily: "Montserrat_700Bold_Italic",
-    fontWeight: "400",
     color: "#FE8A01",
-    margin: 16,
+    margin: 10,
   },
   restaurantsContainer: {
     paddingHorizontal: 16,
@@ -318,7 +317,7 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   dealsAndOffersContainer: {
-    marginTop: 16,
+    marginTop: 5,
   },
 });
 

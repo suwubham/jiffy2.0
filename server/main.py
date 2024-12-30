@@ -26,10 +26,10 @@ rewards = [
     {"reward": "20% Off Coupon", "probability": 0.2},
     {"reward": "Free Delivery", "probability": 0.15},
     {"reward": "Buy 1 Get 1 Free", "probability": 0.1},
-    {"reward": "50% Off Coupon", "probability": 0.05},
+    {"reward": "50% Off Coupon", "probability": 0.01},
     {"reward": "Free Dessert", "probability": 0.1},
     {"reward": "Try Again", "probability": 0.05},
-    {"reward": "Nothing", "probability": 0.05},
+    {"reward": "Nothing", "probability": 0.09},
 ]
 
 weighted_rewards = [
@@ -40,6 +40,8 @@ weighted_rewards = [
 def spin_the_wheel():
     selected_reward = random.choice(weighted_rewards)
     return {"reward": selected_reward}
+
+
 
 
 prompt = """You are a food recommendation assistant.
