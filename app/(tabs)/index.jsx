@@ -14,6 +14,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import FloatingButton from "../../components/FloatingAction";
+import DealsAndOffers from "../../components/DealsAndOffer";
 
 const categories = [
   { icon: "pizza", name: "Pizza" },
@@ -23,7 +24,7 @@ const categories = [
   { icon: "ice-cream", name: "Dessert" },
 ];
 
-const restaurants = [
+const restaurants = [ 
   {
     name: "The Gardens",
     image:
@@ -167,9 +168,11 @@ const HomeScreen = () => {
           </ScrollView>
         </View>
 
-        <Text style={styles.sectionTitle}>Featured Foods</Text>
+        <Text style={styles.sectionTitle}>Deals and Offers</Text>
+        <DealsAndOffers />
+
       </ScrollView>
-      <FloatingButton />
+      <FloatingButton/>
     </View>
   );
 };
@@ -314,6 +317,10 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat_500Medium",
     marginLeft: 4,
   },
+  dealsAndOffersContainer: {
+    marginTop: 16,
+  },
 });
 
 export default HomeScreen;
+
