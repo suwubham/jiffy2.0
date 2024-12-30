@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import FloatingButton from "../../components/FloatingAction";
 
 const categories = [
   { icon: "pizza", name: "Pizza" },
@@ -38,6 +39,7 @@ const categories = [
 //       }).start();
 //     }
 //   }, [visible]); // Listen to changes in `visible`
+
 
 //   if (!visible) return null;
 
@@ -175,6 +177,7 @@ const RestaurantItem = ({ restaurant }) => {
 };
 
 const HomeScreen = () => {
+    const router = useRouter();
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   return (
     <View style={styles.container}>
@@ -216,7 +219,7 @@ const HomeScreen = () => {
                 <Ionicons name="flash" size={25} color="#FE8A01" />
               </View>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => router.push("/cart")}>
               <Ionicons name="cart-outline" size={30} color="#000" />
             </TouchableOpacity>
           </View>
@@ -267,6 +270,8 @@ const HomeScreen = () => {
         <Text style={styles.sectionTitle}>Featured Foods</Text>
       </ScrollView>
       {/* <CustomPopup
+      <FloatingButton/>
+      <CustomPopup 
         visible={isPopupVisible}
         onClose={() => setIsPopupVisible(false)}
       /> */}
