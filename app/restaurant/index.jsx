@@ -32,6 +32,15 @@ const menuItems = [
     arurl: "https://jiffy-ar.glitch.me/#pepperoni-large",
   },
   {
+    id: 7,
+    name: "Spicy Chicken Burger",
+    price: 550,
+    description: "Crispy chicken with fiery flavors",
+    image:
+      "https://mccormick.widen.net/content/rjkpycitj4/jpeg/caramelised_nashville_cauliflower_burger_800x800.jpg?crop=true&anchor=0,0&q=80&color=ffffff00&u=eelhgb&w=800&h=800", // Added image URL
+    arurl: "https://jiffy-ar.glitch.me/#burger",
+  },
+  {
     id: 2,
     name: "Paneer Butter Masala",
     price: 250,
@@ -70,14 +79,6 @@ const menuItems = [
     description: "Fried vegetable fritters with spice",
     image:
       "https://www.recipetineats.com/tachyon/2021/05/Pakora_1.jpg?resize=900%2C1260&zoom=1", // Added image URL
-  },
-  {
-    id: 7,
-    name: "Spicy Chicken Burger",
-    price: 550,
-    description: "Crispy chicken with fiery flavors",
-    image:
-      "https://mccormick.widen.net/content/rjkpycitj4/jpeg/caramelised_nashville_cauliflower_burger_800x800.jpg?crop=true&anchor=0,0&q=80&color=ffffff00&u=eelhgb&w=800&h=800", // Added image URL
   },
   {
     id: 8,

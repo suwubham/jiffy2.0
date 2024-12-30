@@ -10,14 +10,14 @@ export function WheelSpin() {
   const [landed, setLanded] = useState(0);
 
   const rewards =  [
-    {text: "10% Off Coupon", color: "hsl(103, 100.00%, 36.90%)"},
-    {text: "20% Off Coupon", color: "hsl(225, 70.20%, 50.00%)"},
-    {text: "Free Delivery", color: "hsl(225, 70.20%, 50.00%)"},
-    {text: "Buy 1 Get 1 Free", color: "hsl(300, 100.00%, 43.70%)"},
-    {text: "50% Off Coupon", color: "hsl(300, 100.00%, 46.90%)"},
-    {text: "Free Dessert", color: "hsl(300, 100.00%, 46.90%)"},
-    {text: "Try Again", color: "hsl(0, 0.00%, 30.20%)"},
-    {text: "Nothing", color: "hsl(0, 0.00%, 30.20%)"},
+    "10% Off Coupon",
+    "Nothing",
+    "20% Off Coupon",
+    "Free Delivery",
+    "Buy 1 Get 1 Free",
+    "Try Again",
+    "50% Off Coupon",
+    "Free Dessert",
   ];
 
   function createRotationAnimation(targetValue, pullBack = true) {
@@ -50,7 +50,7 @@ export function WheelSpin() {
 
     const response = await fetch("http://jiffyv2.centralindia.cloudapp.azure.com/spin-the-wheel");
     const result = await response.json();
-    let newLanded = rewards.findIndex((e) => e.text === result.reward);
+    let newLanded = rewards.findIndex((e) => e === result.reward);
 
     // Wait an additional second
     await new Promise(resolve => {
@@ -85,12 +85,12 @@ export function WheelSpin() {
 
   for (let i = 0; i < numSectors; i++) {
     let p1 = {
-      x: cx + (r * Math.cos(angle)),
+      x: cx - (r * Math.cos(angle)),
       y: cy + (r * Math.sin(angle))
     };
 
     let p2 = {
-      x: cx + (r * Math.cos(angle + delta)),
+      x: cx - (r * Math.cos(angle + delta)),
       y: cy + (r * Math.sin(angle + delta))
     };
 
@@ -106,16 +106,16 @@ export function WheelSpin() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <RNText style={styles.text}>Wheel of Fortune</RNText>
       <Pressable style={styles.circleContainer} onPress={rotate}>
         <View style={styles.pointer} />
         <Animated.View style={[styles.circle, {transform: [{rotateZ}]}]}>
         <Svg style={styles.pizza}>
-          {triangles.map((e, i) => <Polygon key={i} points={e.points} fill={rewards[i].color} stroke="hsl(194, 19.50%, 82.90%)" strokeWidth={2}/>)}
-          {triangles.map((e, i) => <Text key={i} fontSize={Math.min(200 / rewards[i].text.length, 20)} x={40} y={7} fill="white" transform={`translate(${cx}, ${cy}) rotate(${e.rotation})`}>{`${rewards[i].text}`}</Text>)}
+          {triangles.map((e, i) => <Polygon key={i} points={e.points} fill={/* rewards[i].color */ `hsl(${e.rotation}, 70%, 50%)`} stroke="hsl(194, 19.50%, 82.90%)" strokeWidth={2}/>)}
+          {triangles.map((e, i) => <Text key={i} fontSize={Math.min(200 / rewards[i].length, 20)} x={40} y={7} fill="white" transform={`translate(${cx}, ${cy}) rotate(${e.rotation})`}>{`${rewards[i]}`}</Text>)}
         </Svg>
         </Animated.View>
       </Pressable>
-      <RNText style={styles.text}>Resulting spot: {landed}</RNText>
     </SafeAreaView>
   );
 }
