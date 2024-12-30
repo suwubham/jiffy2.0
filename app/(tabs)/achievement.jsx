@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderBottomColor: "#E0E0E0",
   },
-  
+
   profileHeader: {
     alignItems: "center",
     paddingVertical: 20,
