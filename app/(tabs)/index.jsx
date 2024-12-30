@@ -114,7 +114,7 @@ const RestaurantItem = ({ restaurant }) => {
 };
 
 const HomeScreen = () => {
-    const router = useRouter();
+  const router = useRouter();
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   return (
     <View style={styles.container}>

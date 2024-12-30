@@ -80,7 +80,6 @@ const CircularProgress = ({ progress, size = 48, strokeWidth = 4 }) => {
   const circumference = radius * 2 * Math.PI;
 
   const startAnimation = () => {
-    // Reset the animation value
     animatedProgress.setValue(0);
     Animated.timing(animatedProgress, {
       toValue: progress,
@@ -89,7 +88,6 @@ const CircularProgress = ({ progress, size = 48, strokeWidth = 4 }) => {
     }).start();
   };
 
-  // Use useFocusEffect to restart animation when screen comes into focus
   useFocusEffect(
     React.useCallback(() => {
       startAnimation();
@@ -174,16 +172,6 @@ export default function UserProfile() {
           />
           <Text style={styles.userName}>New User</Text>
         </View>
-        <TouchableOpacity
-          // style={styles.restaurantItem}
-          onPress={() =>
-            router.push({
-              pathname: "/leaderboard",
-            })
-          }
-        >
-          <Text>Lead</Text>
-        </TouchableOpacity>
         <View style={styles.levelContainer}>
           <View style={styles.levelHeader}>
             <View style={styles.levelBadge}>
@@ -257,6 +245,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderBottomColor: "#E0E0E0",
   },
+  
   profileHeader: {
     alignItems: "center",
     paddingVertical: 20,
