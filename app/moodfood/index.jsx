@@ -59,7 +59,7 @@ const questions = [
 
 const getFoodRecommendation = async (answers) => {
   const response = await fetch(
-    "http://192.168.16.49:8000/get-food-suggestion",
+    "http://jiffyv2.centralindia.cloudapp.azure.com/get-food-suggestion",
     {
       method: "POST",
       body: JSON.stringify({ answers }),
