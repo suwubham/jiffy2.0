@@ -32,6 +32,7 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarInactiveTintColor: Colors[colorScheme ?? "light"].icon,
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarStyle: [
@@ -53,8 +54,7 @@ export default function TabLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => (
-            // <IconSymbol size={28} name="house.fill" color={color} />
-            <Ionicons size={28} name="home" color={color} />
+            <Ionicons size={28} name="home-sharp" color={color} />
           ),
         }}
       />
@@ -62,29 +62,19 @@ export default function TabLayout() {
         name="achievement"
         options={{
           title: "Achievement",
+          headerShown: false,
           tabBarIcon: ({ color }) => (
-            // <IconSymbol size={28} name="medal.fill" color={color} />
-            <Ionicons size={28} name="trophy" color={color} />
+            <Ionicons size={28} name="trophy-sharp" color={color} />
           ),
         }}
       />
-      {/* <Tabs.Screen
-        name="leaderboard"
-        options={{
-          title: "Leaderboard",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="leaderboard.fill" color={color} />
-          ),
-        }}
-      /> */}
-      {/* <View style={{ flex: 1, justifyContent: "center" }}> */}
+
       <Tabs.Screen
         name="wheel"
         options={{
-          title: "Spin the Wheel",
+          title: "Mini Game",
           tabBarIcon: ({ color }) => (
-            // <IconSymbol size={28} name="wheel.fill" color={color} />
-            <Ionicons size={28} name="aperture" color={color} />
+            <Ionicons size={28} name="game-controller-sharp" color={color} />
           ),
         }}
       />
@@ -94,8 +84,7 @@ export default function TabLayout() {
         options={{
           title: "Profile",
           tabBarIcon: ({ color }) => (
-            // <IconSymbol size={28} name="profile.fill" color={color} />
-            <Ionicons size={28} name="person" color={color} />
+            <Ionicons size={28} name="person-sharp" color={color} />
           ),
         }}
       />

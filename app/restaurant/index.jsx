@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Linking,
 } from "react-native";
-import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useLocalSearchParams } from "expo-router";
 import { supabase } from "../../utils/supabase";
 
@@ -163,7 +163,7 @@ const RestaurantScreen = ({ route, navigation }) => {
         const { data, error } = await supabase
           .from("cart")
           .select("cart")
-          .eq("id", 1) 
+          .eq("id", 1)
           .single();
 
         if (error) throw error;
@@ -266,12 +266,11 @@ const MenuItem = ({ item, cart, setCart }) => {
               <Ionicons name="add" size={24} color="#FE8A01" />
             </TouchableOpacity>
           </View>
-          {
-            item.arurl && (<TouchableOpacity onPress={() => Linking.openURL(item.arurl)}>
-                <MaterialIcons name="view-in-ar" size={24} color="#FE8A01" />
-              </TouchableOpacity>)
-          }
-
+          {item.arurl && (
+            <TouchableOpacity onPress={() => Linking.openURL(item.arurl)}>
+              <MaterialIcons name="view-in-ar" size={24} color="#FE8A01" />
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </View>
@@ -367,9 +366,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 8,
   },
-//   quantityButton: {
-//     padding: 8,
-//   },
+  //   quantityButton: {
+  //     padding: 8,
+  //   },
   quantityText: {
     fontSize: 18,
     marginHorizontal: 8,

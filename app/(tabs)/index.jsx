@@ -24,7 +24,7 @@ const categories = [
   { icon: "ice-cream", name: "Dessert" },
 ];
 
-const restaurants = [ 
+const restaurants = [
   {
     name: "The Gardens",
     image:
@@ -125,7 +125,6 @@ const HomeScreen = () => {
         />
       </View>
       <ScrollView>
-
         <View style={styles.searchBar}>
           <Ionicons
             name="search"
@@ -170,9 +169,8 @@ const HomeScreen = () => {
 
         <Text style={styles.sectionTitle}>Deals and Offers</Text>
         <DealsAndOffers />
-
       </ScrollView>
-      <FloatingButton/>
+      <FloatingButton />
     </View>
   );
 };
@@ -322,4 +320,3 @@ const styles = StyleSheet.create({
 });
 
 export default HomeScreen;
-

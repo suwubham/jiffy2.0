@@ -302,9 +302,9 @@ const LeaderboardItem = ({ item, index }) => {
       ]}
     >
       {+index % 2 === 0 ? (
-        <Ionicons name="arrow-up" color={"green"} size={20} />
+        <Ionicons name="arrow-up" color="green" size={20} />
       ) : (
-        <Ionicons name="arrow-down" color={"#c4291d"} size={20} />
+        <Ionicons name="arrow-down" color="#c4291d" size={20} />
       )}
 
       <View style={styles.rankContainer}>

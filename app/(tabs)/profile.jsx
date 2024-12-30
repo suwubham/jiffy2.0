@@ -234,7 +234,8 @@ const styles = StyleSheet.create({
   },
   orderContent: {
     fontSize: 18,
-    fontWeight: "bold",
+    // fontWeight: "bold",
+    fontFamily: "Montserrat_400Regular_Italic",
     marginBottom: 10,
   },
   orderStats: {
