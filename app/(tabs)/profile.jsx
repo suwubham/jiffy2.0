@@ -90,8 +90,6 @@ const Profile = () => {
       </View>
       <ScrollView>
         <View style={styles.header}>
-          {/* <Image source={{ uri: user.avatar }} style={styles.avatar} />
-           */}
           <Avatar style={styles.avatar} {...config} />
 
           <Text style={styles.name}>{user.name}</Text>
@@ -119,7 +117,7 @@ const Profile = () => {
             <Ionicons name="happy-outline" size={25} color="#fe8a01"></Ionicons>
           </TouchableOpacity>
 
-          <Text style={styles.username}>{user.username}</Text>
+          <Text style={styles.username}>Grill Guru</Text>
           <Text style={styles.bio}>{user.bio}</Text>
           <View style={styles.statsContainer}>
             <View style={styles.statItem}>
@@ -130,10 +128,6 @@ const Profile = () => {
               <Text style={styles.statValue}>{user.followers}</Text>
               <Text style={styles.statLabel}>Followers</Text>
             </View>
-            {/* <View style={styles.statItem}>
-              <Text style={styles.statValue}>{user.following}</Text>
-              <Text style={styles.statLabel}>Following</Text>
-            </View> */}
           </View>
           <TouchableOpacity style={styles.editButton}>
             <Text style={styles.editButtonText}>Edit Profile</Text>

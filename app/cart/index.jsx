@@ -24,13 +24,6 @@ export default function CheckoutPage() {
     }
   };
 
-  useFocusEffect(
-    React.useCallback(() => {
-      fetchMenuItems();
-      return () => {};
-    }, [])
-  );
-
   const fetchCartItems = async () => {
     try {
       const { data, error } = await supabase
@@ -39,27 +32,21 @@ export default function CheckoutPage() {
         .single();
 
       if (error) throw error;
-
       if (data && data.cart) {
         const parsedCart = JSON.parse(data.cart);
         setCartItems(parsedCart);
-        calculateTotal(parsedCart);
+      } else {
+        setCartItems({});
       }
     } catch (error) {
       console.error("Error fetching cart items:", error);
     }
   };
 
-  useFocusEffect(
-    React.useCallback(() => {
-      fetchCartItems();
-      return () => {};
-    }, [])
-  );
-
-  const calculateTotal = (cart) => {
+  const calculateTotal = () => {
+    if (!menuItems || menuItems.length === 0) return;
     let total = 0;
-    Object.entries(cart).forEach(([itemId, quantity]) => {
+    Object.entries(cartItems).forEach(([itemId, quantity]) => {
       const item = menuItems.find((item) => item.id === parseInt(itemId));
       if (item) {
         total += item.price * quantity;
@@ -67,6 +54,18 @@ export default function CheckoutPage() {
     });
     setTotalAmount(total);
   };
+
+  useEffect(() => {
+    calculateTotal();
+  }, [menuItems, cartItems]); // Recalculate total when menuItems or cartItems changes
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchMenuItems();
+      fetchCartItems();
+      return () => {};
+    }, [])
+  );
 
   const renderCartItems = () => {
     return Object.entries(cartItems).map(([itemId, quantity]) => {
