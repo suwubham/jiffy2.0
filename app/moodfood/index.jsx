@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -10,6 +10,7 @@ import {
   Image,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { supabase } from "../../utils/supabase";
 
 const questions = [
   {
@@ -90,7 +91,61 @@ const FoodRecommendationScreen = () => {
   const [textInput, setTextInput] = useState("");
   const [recommendation, setRecommendation] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [cart, setCart] = useState({});
+  const [menuItems, setMenuItems] = useState([]);
 
+  useEffect(() => {
+    const fetchMenuItems = async () => {
+      const { data, error } = await supabase.from("menuItems").select();
+      if (error) {
+        console.error("Error fetching menu items:", error);
+      } else {
+        setMenuItems(data);
+      }
+    };
+    const fetchCart = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("cart")
+          .select("cart")
+          .eq("id", 1)
+          .single();
+
+        if (error) throw error;
+
+        if (data && data.cart) {
+          setCart(JSON.parse(data.cart));
+        }
+      } catch (error) {
+        console.error("Error fetching cart:", error);
+      }
+    };
+
+    fetchCart();
+    fetchMenuItems();
+  }, []);
+
+  useEffect(() => {
+    const updateCartInSupabase = async () => {
+      try {
+        const { data, error } = await supabase.from("cart").upsert([
+          {
+            id: 1, // Adjust this ID as needed
+            cart: JSON.stringify(cart),
+          },
+        ]);
+  
+        if (error) throw error;
+      } catch (error) {
+        console.error("Error updating cart:", error);
+      }
+    };
+  
+    if (Object.keys(cart).length > 0) {
+      updateCartInSupabase();
+    }
+  }, [cart]);
+  
   const handleAnswer = async (answer) => {
     const newAnswers = [...answers, answer];
     setAnswers(newAnswers);
@@ -160,7 +215,21 @@ const FoodRecommendationScreen = () => {
               <Text style={styles.price}>Rs{item.price}</Text>
               <TouchableOpacity
                 style={[styles.button, { marginTop: 10 }]}
-                onPress={console.log("Add to Cart::")}
+                onPress={() => {
+                  const menuItem = menuItems.find(
+                    (menuItem) => menuItem.name === item.dish_name
+                  );
+                  console.log("Adding to cart:", menuItem);
+                  setCart((prevCart) => {
+                    const newCart = { ...prevCart };
+                    if (newCart[menuItem.id]) {
+                      newCart[menuItem.id] += 1;
+                    } else {
+                      newCart[menuItem.id] = 1;
+                    }
+                    return newCart;
+                  });
+                }}
               >
                 <Text style={styles.buttonText}>Add to Cart</Text>
               </TouchableOpacity>

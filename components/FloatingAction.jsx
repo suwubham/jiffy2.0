@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { View, TouchableOpacity, StyleSheet, Animated } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 
 const FloatingButton = () => {
   const router = useRouter();
+    const [cart, setCart] = useState({});
   const [icon_1] = useState(new Animated.Value(20));
   const [icon_2] = useState(new Animated.Value(20));
   const [icon_3] = useState(new Animated.Value(20));
@@ -15,17 +17,17 @@ const FloatingButton = () => {
     setPop(true);
     Animated.timing(icon_1, {
       toValue: 130,
-      duration: 500,
+      duration: 200,
       useNativeDriver: false,
     }).start();
     Animated.timing(icon_2, {
       toValue: 110,
-      duration: 500,
+      duration: 200,
       useNativeDriver: false,
     }).start();
     Animated.timing(icon_3, {
       toValue: 130,
-      duration: 500,
+      duration: 200,
       useNativeDriver: false,
     }).start();
   };
@@ -34,17 +36,17 @@ const FloatingButton = () => {
     setPop(false);
     Animated.timing(icon_1, {
       toValue: 20,
-      duration: 500,
+      duration: 200,
       useNativeDriver: false,
     }).start();
     Animated.timing(icon_2, {
       toValue: 20,
-      duration: 500,
+      duration: 200,
       useNativeDriver: false,
     }).start();
     Animated.timing(icon_3, {
       toValue: 20,
-      duration: 500,
+      duration: 200,
       useNativeDriver: false,
     }).start();
   };
@@ -61,7 +63,7 @@ const FloatingButton = () => {
             router.push({ pathname: "/moodfood" });
           }}
         >
-          <Icon name="wpexplorer" size={25} color="#FFFF" />
+          <Ionicons name="sparkles" size={25} color="#FFFF" />
         </TouchableOpacity>
       </Animated.View>
       <Animated.View style={[styles.circle, { bottom: icon_2, right: icon_2 }]}>
@@ -70,7 +72,7 @@ const FloatingButton = () => {
             router.push({ pathname: "/notification" });
           }}
         >
-          <Icon name="wechat" size={25} color="#FFFF" />
+          <Ionicons name="notifications" size={25} color="#FFFF" />
         </TouchableOpacity>
       </Animated.View>
       <Animated.View style={[styles.circle, { right: icon_3 }]}>
