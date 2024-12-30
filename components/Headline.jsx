@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+ import { MaterialIcons } from "@expo/vector-icons";
 
 const CustomPopup = ({ visible, onClose }) => {
   const [progress] = useState(new Animated.Value(0)); 
@@ -87,9 +88,9 @@ export default Headline = ({ isPopupVisible, setIsPopupVisible }) => {
                 fontFamily: "Montserrat_700Bold_Italic",
               }}
             >
-              6940
+              694
             </Text>
-            <Ionicons name="wallet" size={25} color="#FE8A01" />
+            <MaterialIcons name="redeem" size={22} color="#FE8A01" />
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setIsPopupVisible(true)}>
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16,
     paddingBottom: 0,
-    paddingTop: 10,
+    paddingTop: 30,
   },
   resaddress: {
     color: "#666",

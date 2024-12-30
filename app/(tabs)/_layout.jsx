@@ -13,6 +13,7 @@ import {
   Montserrat_700Bold,
   Montserrat_700Bold_Italic,
   Montserrat_900Black_Italic,
+  Montserrat_600SemiBold
 } from "@expo-google-fonts/montserrat";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -26,6 +27,7 @@ export default function TabLayout() {
     Montserrat_400Regular_Italic,
     Montserrat_600SemiBold_Italic,
     Montserrat_700Bold_Italic,
+    Montserrat_600SemiBold
   });
 
   return (
