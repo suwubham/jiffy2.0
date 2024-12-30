@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, FlatList, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import Headline from "../../components/Headline";
 
 const LeaderboardItem = ({ item, index }) => {
   const getRankColor = () => {

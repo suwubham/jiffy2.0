@@ -80,7 +80,6 @@ const CircularProgress = ({ progress, size = 48, strokeWidth = 4 }) => {
   const circumference = radius * 2 * Math.PI;
 
   const startAnimation = () => {
-    // Reset the animation value
     animatedProgress.setValue(0);
     Animated.timing(animatedProgress, {
       toValue: progress,
@@ -89,7 +88,6 @@ const CircularProgress = ({ progress, size = 48, strokeWidth = 4 }) => {
     }).start();
   };
 
-  // Use useFocusEffect to restart animation when screen comes into focus
   useFocusEffect(
     React.useCallback(() => {
       startAnimation();
