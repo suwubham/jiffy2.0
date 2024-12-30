@@ -72,7 +72,7 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="wheel"
+        name="picker"
         options={{
           title: "Mini Game",
           tabBarIcon: ({ color }) => (

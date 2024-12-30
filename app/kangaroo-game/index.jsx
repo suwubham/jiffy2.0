@@ -11,7 +11,7 @@ function withinLane(x, lane) {
   return Math.abs((x + 25) - (50 + lane * 133)) < 25;
 }
 
-export function KangarooCatch() {
+export default function KangarooCatch() {
   const fontStyle = {
     fontFamily: 'serif',
     fontSize: 30,
@@ -19,11 +19,11 @@ export function KangarooCatch() {
   };
   const font = matchFont(fontStyle);
 
-  const kangaroo = useImage(require('../assets/sprites/kangaroo-katch/kangaroo.png'));
-  const kangarooBoom = useImage(require('../assets/sprites/kangaroo-katch/kangaroo-boom.png'));
-  const leaf = useImage(require('../assets/sprites/kangaroo-katch/falling-leaf.png'));
-  const goldenLeaf = useImage(require('../assets/sprites/kangaroo-katch/golden-leaf.png'));
-  const bomb = useImage(require('../assets/sprites/kangaroo-katch/bomb.png'));
+  const kangaroo = useImage(require('../../assets/sprites/kangaroo-katch/kangaroo.png'));
+  const kangarooBoom = useImage(require('../../assets/sprites/kangaroo-katch/kangaroo-boom.png'));
+  const leaf = useImage(require('../../assets/sprites/kangaroo-katch/falling-leaf.png'));
+  const goldenLeaf = useImage(require('../../assets/sprites/kangaroo-katch/golden-leaf.png'));
+  const bomb = useImage(require('../../assets/sprites/kangaroo-katch/bomb.png'));
 
   const [screenDims, setScreenDims] = useState({});
 
