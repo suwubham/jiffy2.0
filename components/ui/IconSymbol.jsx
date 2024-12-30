@@ -5,7 +5,6 @@ import { OpaqueColorValue, StyleProp, ViewStyle } from "react-native";
 
 const MAPPING = {
   "house.fill": "home",
-  // "paperplane.fill": "send",
   "leaderboard.fill": "chart-bar",
   "chevron.left.forwardslash.chevron.right": "code",
   "chevron.right": "chevron-right",
