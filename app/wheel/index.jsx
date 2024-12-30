@@ -1,13 +1,15 @@
-import { Animated, StyleSheet, View, SafeAreaView, useAnimatedValue, Pressable, Easing } from 'react-native';
+import { Animated, StyleSheet, View, SafeAreaView, useAnimatedValue, Pressable, Easing, Alert } from 'react-native';
 import Svg, { Polygon, Text } from 'react-native-svg';
 import { Text as RNText } from 'react-native';
 import { useState, useRef } from 'react';
+import { useRouter } from 'expo-router';
 
 export default function WheelSpin() {
   const rotation = useAnimatedValue(0);
   const animating = useRef(false);
   const superRotation = useRef(0);
   const [landed, setLanded] = useState(0);
+  const router = useRouter();
 
   const rewards =  [
     "10% Off Coupon",
@@ -63,7 +65,17 @@ export default function WheelSpin() {
     const animation = createRotationAnimation(newLanded, false);
 
     animation.start((res) => {
-      animating.current = false;
+      if (rewards[newLanded] === "Try Again") {
+        animating.current = false;
+      } else {
+        setTimeout(() => {
+          Alert.alert("Congratulations!", `You received: ${rewards[newLanded]}! Your order has been placed. Enjoy our minigames in the meantime...`, [{
+            text: "OK", onPress: () => {router.replace({
+              pathname: "/picker",
+            })}
+          }])
+        }, 1000);
+      }
     });
   };
 
