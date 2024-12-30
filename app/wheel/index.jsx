@@ -1,47 +1,69 @@
 import { Animated, StyleSheet, View, SafeAreaView, useAnimatedValue, Pressable, Easing } from 'react-native';
 import Svg, { Polygon, Text } from 'react-native-svg';
 import { Text as RNText } from 'react-native';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
-export function WheelSpin() {
+export default function WheelSpin() {
   const rotation = useAnimatedValue(0);
-  let animating = false;
-  const [superRotation, setSR] = useState(0);
+  const animating = useRef(false);
+  const superRotation = useRef(0);
   const [landed, setLanded] = useState(0);
 
-  const rotate = () => {
-    if (animating) return;
-    /*
-    let newRotation = Number(JSON.stringify(rotation)) + 40 + Math.random() * 20;
-    // newRotation = 2.5 * delta;
-    // newRotation = 0;
-    setAngle(newRotation * 180 / Math.PI);
-    
-    setLanded(Math.ceil((newRotation + Math.PI * 1/2) / delta) % numSectors);
-    */
+  const rewards =  [
+    "10% Off Coupon",
+    "Nothing",
+    "20% Off Coupon",
+    "Free Delivery",
+    "Buy 1 Get 1 Free",
+    "Try Again",
+    "50% Off Coupon",
+    "Free Dessert",
+  ];
 
-    // Alternative: randomly pick sector and try landing there
-    let newLanded = Math.floor(Math.random() * numSectors);
-    setLanded(newLanded);
-    let newRotation = newLanded * delta - Math.PI * 1/2;
+  function createRotationAnimation(targetValue, pullBack = true) {
+    let newRotation = targetValue * delta - Math.PI * 1/2;
 
     // Random offset within the sector
     newRotation -= Math.min(0.05 + Math.random(), 0.93) * delta;
 
     // Ensure it spins a lot
-    setSR(superRotation + (Math.PI * 2 * Math.floor(15 + Math.random() * 10)));
-    newRotation += superRotation;
+    superRotation.current += (Math.PI * 2 * Math.floor(15 + Math.random() * 10));
+    newRotation += superRotation.current;
 
     const animation = Animated.timing(rotation, {
       toValue: newRotation,
-      easing: Easing.bezier(.17,-0.27,.06,1.07),
+      easing: pullBack ? Easing.bezier(.17,-0.27,.06,1.07) : Easing.bezier(.15,.41,.32,1.03),
       duration: 7000,
       useNativeDriver: true,
     });
 
-    animating = true;
+    return animation;
+  }
+
+  const rotate = async () => {
+    if (animating.current) return;
+    animating.current = true;
+
+    // Begin animation while we fetch from server
+    const tempAnim = createRotationAnimation(0);
+    tempAnim.start();
+
+    const response = await fetch("http://jiffyv2.centralindia.cloudapp.azure.com/spin-the-wheel");
+    const result = await response.json();
+    let newLanded = rewards.findIndex((e) => e === result.reward);
+
+    // Wait an additional second
+    await new Promise(resolve => {
+      setTimeout(resolve, 1000);
+    });
+
+    setLanded(newLanded);
+
+    // Begin the actual animation
+    const animation = createRotationAnimation(newLanded, false);
+
     animation.start((res) => {
-      animating = false;
+      animating.current = false;
     });
   };
 
@@ -52,7 +74,7 @@ export function WheelSpin() {
   });
 
   // Points generation
-  const numSectors = 12;
+  const numSectors = rewards.length;
   const cx = 150, cy = 150;
   const r = 400;
 
@@ -63,37 +85,35 @@ export function WheelSpin() {
 
   for (let i = 0; i < numSectors; i++) {
     let p1 = {
-      x: cx + (r * Math.cos(angle)),
-      y: cy - (r * Math.sin(angle))
+      x: cx - (r * Math.cos(angle)),
+      y: cy + (r * Math.sin(angle))
     };
 
     let p2 = {
-      x: cx + (r * Math.cos(angle + delta)),
-      y: cy - (r * Math.sin(angle + delta))
+      x: cx - (r * Math.cos(angle + delta)),
+      y: cy + (r * Math.sin(angle + delta))
     };
 
     triangles.push({
       points: `${cx},${cy} ${p1.x},${p1.y} ${p2.x},${p2.y}`,
-      color:`${(angle + delta / 2) * 180 / Math.PI}`,
+      rotation:`${(angle + delta / 2) * 180 / Math.PI}`,
     });
 
     angle -= delta;
   }
 
-  console.log(triangles);
-
   return (
     <SafeAreaView style={styles.container}>
+      <RNText style={styles.text}>Tap to spin</RNText>
       <Pressable style={styles.circleContainer} onPress={rotate}>
         <View style={styles.pointer} />
         <Animated.View style={[styles.circle, {transform: [{rotateZ}]}]}>
         <Svg style={styles.pizza}>
-          {triangles.map((e, i) => <Polygon key={i} points={e.points} fill={`hsl(${e.color}, 80.00%, 50.00%)`} stroke="white" strokeWidth={2}/>)}
-          {triangles.map((e, i) => <Text key={i} fontSize={20} x={40} y={7} fill="white" transform={`translate(${cx}, ${cy}) rotate(${e.color})`}>{`Bro ${i}`}</Text>)}
+          {triangles.map((e, i) => <Polygon key={i} points={e.points} fill={`hsl(${e.rotation}, 70%, 50%)`} stroke="hsl(194, 19.50%, 82.90%)" strokeWidth={2}/>)}
+          {triangles.map((e, i) => <Text key={i} fontSize={Math.min(200 / rewards[i].length, 20)} x={40} y={7} fill="white" transform={`translate(${cx}, ${cy}) rotate(${e.rotation})`}>{`${rewards[i]}`}</Text>)}
         </Svg>
         </Animated.View>
       </Pressable>
-      <RNText style={styles.text}>Resulting spot: {landed}</RNText>
     </SafeAreaView>
   );
 }
@@ -113,7 +133,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#343a40',
+    backgroundColor: 'white',
   },
   circleContainer: {
     width: 300,
@@ -133,8 +153,8 @@ const styles = StyleSheet.create({
   },
   pizza: {width: '100%', height: '100%'},
   text: {
-    padding: 10,
+    padding: 50,
     fontSize: 20,
-    color: "white",
+    // color: "white",
   }
 });

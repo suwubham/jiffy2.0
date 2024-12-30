@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { supabase } from "../../utils/supabase";
+import { useRouter } from "expo-router";
 import { useFocusEffect } from "@react-navigation/native";
 
 export default function CheckoutPage() {
@@ -82,9 +83,16 @@ export default function CheckoutPage() {
       return null;
     });
   };
-
+  
+  const router = useRouter();
   const handleCheckout = () => {
-    console.log("Proceeding to payment...");
+    if (totalAmount > 2000) {
+      router.push({
+        pathname: "/wheel",
+      });
+    } else {
+      console.log("Proceeding to payment...");
+    }    
   };
 
   return (
@@ -100,7 +108,7 @@ export default function CheckoutPage() {
         <Text style={styles.totalAmount}>Rs. {totalAmount}</Text>
       </View>
       <TouchableOpacity style={styles.checkoutButton} onPress={handleCheckout}>
-        <Text style={styles.checkoutButtonText}>Proceed to Payment</Text>
+        <Text style={styles.checkoutButtonText}>{totalAmount > 2000 ? "Proceed to Spin" : "Proceed to Pay"}</Text>
       </TouchableOpacity>
     </View>
   );

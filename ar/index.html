@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="https://glitch.com/favicon.ico" />
+
+    <title>AR Preview</title>
+
+    <link rel="stylesheet" href="/style.css" />
+
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+  </head>
+  <body>
+  <div id="container">
+    
+  <model-viewer shadow-intensity="1" ar camera-controls touch-action="pan-y" alt="A 3D model carousel">
+  
+    <button slot="ar-button" id="ar-button">
+      View in your space
+    </button>
+
+    <div id="ar-prompt">
+      <img src="https://cdn.glitch.global/69f5320e-9dae-459a-bcb4-63b8234ec5e7/hand.png?v=1735497722511">
+    </div>
+
+    <button id="ar-failure">
+      AR is not tracking!
+    </button>
+
+  </model-viewer>
+    </div>
+
+  <script type="module" defer>
+    const models = {
+      "#pepperoni-large": {
+        model: "https://cdn.glitch.global/69f5320e-9dae-459a-bcb4-63b8234ec5e7/large-pizza.glb?v=1735521589729",
+        preview: "https://cdn.glitch.global/69f5320e-9dae-459a-bcb4-63b8234ec5e7/Pepperoni%20pizza.png?v=1735496681139",
+      },
+      "#pepperoni-small": {
+        model: "https://cdn.glitch.global/69f5320e-9dae-459a-bcb4-63b8234ec5e7/small-pizza.glb?v=1735522379917",
+        preview: "https://cdn.glitch.global/69f5320e-9dae-459a-bcb4-63b8234ec5e7/small-pizza.png?v=1735522399557",
+      },
+      "#burger": {
+        model: "https://cdn.glitch.global/69f5320e-9dae-459a-bcb4-63b8234ec5e7/burger.glb?v=1735583474765",
+        preview: "https://cdn.glitch.global/69f5320e-9dae-459a-bcb4-63b8234ec5e7/Cheeseburger.png?v=1735583523460"
+      },
+    };
+    
+    const model = models[window.location.hash ? window.location.hash : "#pepperoni-small"]
+    
+    const modelViewer = document.querySelector("model-viewer");
+    modelViewer.src = model.model;
+    modelViewer.poster = model.preview;
+    modelViewer.scale = '0.25 0.25 0.25';
+  </script>
+  </body>
+</html>

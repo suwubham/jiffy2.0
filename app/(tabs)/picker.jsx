@@ -31,9 +31,16 @@ export default function TwoComponentsPage() {
         >
           <Text style={styles.cardText}>Momo Udaan</Text>
         </TouchableOpacity>
-        <View style={styles.card}>
-          <Text style={styles.cardText}>This is Component Two</Text>
-        </View>
+        <TouchableOpacity
+          style={styles.card}
+          onPress={() =>
+            router.push({
+              pathname: "/kangaroo-game",
+            })
+          }
+        >
+          <Text style={styles.cardText}>Kangaroo Catch</Text>
+        </TouchableOpacity>
       </ScrollView>
     </View>
   );
