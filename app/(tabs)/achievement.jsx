@@ -12,6 +12,7 @@ import Svg, { Circle } from "react-native-svg";
 import { useFocusEffect } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import Headline from "../../components/Headline";
+import { Ionicons } from "@expo/vector-icons";
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
@@ -163,7 +164,7 @@ export default function UserProfile() {
           isPopupVisible={isPopupVisible}
           setIsPopupVisible={setIsPopupVisible}
         />
-      </View>{" "}
+      </View>
       <ScrollView>
         <View style={styles.profileHeader}>
           <Image
@@ -179,8 +180,9 @@ export default function UserProfile() {
               pathname: "/leaderboard",
             })
           }
+          style={styles.leaderboardIcon}
         >
-          <Text>Lead</Text>
+          <Ionicons name="bar-chart-outline" size={30}></Ionicons>
         </TouchableOpacity>
         <View style={styles.levelContainer}>
           <View style={styles.levelHeader}>
@@ -254,6 +256,20 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingVertical: 10,
     borderBottomColor: "#E0E0E0",
+  },
+  leaderboardIcon: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+    backgroundColor: "#fff",
+    padding: 10,
+    borderRadius: 25,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.84,
+    elevation: 5,
+    zIndex: 10,
   },
   profileHeader: {
     alignItems: "center",

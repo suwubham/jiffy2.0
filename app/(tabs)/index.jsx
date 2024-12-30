@@ -23,70 +23,6 @@ const categories = [
   { icon: "ice-cream", name: "Dessert" },
 ];
 
-// const CustomPopup = ({ visible, onClose }) => {
-//   const [progress] = useState(new Animated.Value(0)); // Initialize the animated value
-//   const maxStreak = 30; // Maximum streak value
-//   const currentStreak = 13; // Current streak
-
-//   React.useEffect(() => {
-//     if (visible) {
-//       // Reset progress to 0 before starting the animation
-//       progress.setValue(0);
-//       Animated.timing(progress, {
-//         toValue: currentStreak / maxStreak, // Calculate progress percentage
-//         duration: 800, // Animation duration
-//         useNativeDriver: false, // Use native driver (false for width animation)
-//       }).start();
-//     }
-//   }, [visible]); // Listen to changes in `visible`
-
-
-//   if (!visible) return null;
-
-//   const progressBarWidth = progress.interpolate({
-//     inputRange: [0, 1],
-//     outputRange: ["0%", "100%"], // Interpolate the progress to width percentage
-//   });
-
-//   return (
-//     <Modal transparent visible={visible} animationType="fade">
-//       <TouchableWithoutFeedback onPress={onClose}>
-//         <View style={styles.overlay}>
-//           <TouchableWithoutFeedback>
-//             <View style={styles.popup}>
-//               <View style={styles.popupContent}>
-//                 <View style={styles.popupHeader}>
-//                   <Ionicons name="flash" size={30} color="#FE8A01" />
-//                   <Text style={styles.popupTitle}>Streak Status</Text>
-//                 </View>
-//                 <Text style={styles.popupMessage}>
-//                   You're on a {currentStreak}-week streak! Keep ordering to
-//                   maintain your streak.
-//                 </Text>
-//                 <View style={styles.progressBarContainer}>
-//                   <Animated.View
-//                     style={[styles.progressBar, { width: progressBarWidth }]}
-//                   />
-//                 </View>
-//                 {/* Display max and current streak */}
-//                 <Text style={styles.streakNumbers}>
-//                   {currentStreak} / {maxStreak} weeks
-//                 </Text>
-//                 <Text style={styles.streakInfo}>
-//                   Order today to keep your streak going!
-//                 </Text>
-//                 <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-//                   <Text style={styles.closeButtonText}>Close</Text>
-//                 </TouchableOpacity>
-//               </View>
-//             </View>
-//           </TouchableWithoutFeedback>
-//         </View>
-//       </TouchableWithoutFeedback>
-//     </Modal>
-//   );
-// };
-
 const restaurants = [
   {
     name: "The Gardens",
@@ -177,7 +113,7 @@ const RestaurantItem = ({ restaurant }) => {
 };
 
 const HomeScreen = () => {
-    const router = useRouter();
+  const router = useRouter();
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   return (
     <View style={styles.container}>
@@ -186,44 +122,8 @@ const HomeScreen = () => {
           isPopupVisible={isPopupVisible}
           setIsPopupVisible={setIsPopupVisible}
         />
-      </View>{" "}
+      </View>
       <ScrollView>
-        {/* <View style={styles.header}>
-          <Text style={styles.headerTitle}>
-            Jiffy <Text style={styles.headerTitleBold}>2.0</Text>
-          </Text>
-          <View style={styles.toprightview}>
-            <TouchableOpacity>
-              <View style={styles.streakmain}>
-                <Text
-                  style={{
-                    fontSize: 15,
-                    fontFamily: "Montserrat_900Black_Italic",
-                  }}
-                >
-                  6940
-                </Text>
-                <Ionicons name="wallet" size={25} color="#FE8A01" />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => setIsPopupVisible(true)}>
-              <View style={styles.streakmain}>
-                <Text
-                  style={{
-                    fontFamily: "Montserrat_900Black_Italic",
-                    fontSize: 15,
-                  }}
-                >
-                  13
-                </Text>
-                <Ionicons name="flash" size={25} color="#FE8A01" />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => router.push("/cart")}>
-              <Ionicons name="cart-outline" size={30} color="#000" />
-            </TouchableOpacity>
-          </View>
-        </View> */}
 
         <View style={styles.searchBar}>
           <Ionicons
@@ -269,13 +169,7 @@ const HomeScreen = () => {
 
         <Text style={styles.sectionTitle}>Featured Foods</Text>
       </ScrollView>
-      <FloatingButton/>
-
-      {/* <CustomPopup
-      <CustomPopup 
-        visible={isPopupVisible}
-        onClose={() => setIsPopupVisible(false)}
-      /> */}
+      <FloatingButton />
     </View>
   );
 };
@@ -420,84 +314,6 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat_500Medium",
     marginLeft: 4,
   },
-  // overlay: {
-  //   flex: 1,
-  //   backgroundColor: "rgba(0, 0, 0, 0.5)",
-  //   justifyContent: "center",
-  //   alignItems: "center",
-  // },
-  // popup: {
-  //   width: "80%",
-  //   backgroundColor: "white",
-  //   borderRadius: 15,
-  //   padding: 20,
-  //   alignItems: "center",
-  //   elevation: 5,
-  //   shadowColor: "#000",
-  //   shadowOffset: { width: 0, height: 2 },
-  //   shadowOpacity: 0.25,
-  //   shadowRadius: 4,
-  // },
-  // popupContent: {
-  //   width: "100%",
-  //   alignItems: "center",
-  // },
-  // popupHeader: {
-  //   flexDirection: "row",
-  //   alignItems: "center",
-  //   marginBottom: 15,
-  // },
-  // popupTitle: {
-  //   fontSize: 20,
-  //   fontWeight: "bold",
-  //   marginLeft: 10,
-  //   fontFamily: "Montserrat_700Bold",
-  // },
-  // popupMessage: {
-  //   fontSize: 16,
-  //   textAlign: "center",
-  //   marginBottom: 10,
-  //   fontFamily: "Montserrat_400Regular",
-  // },
-  // streakInfo: {
-  //   fontSize: 14,
-  //   color: "#666",
-  //   textAlign: "center",
-  //   marginBottom: 20,
-  //   fontFamily: "Montserrat_400Regular_Italic",
-  // },
-  // closeButton: {
-  //   backgroundColor: "#FE8A01",
-  //   paddingVertical: 10,
-  //   paddingHorizontal: 30,
-  //   borderRadius: 25,
-  // },
-  // closeButtonText: {
-  //   color: "white",
-  //   fontSize: 16,
-  //   fontWeight: "500",
-  //   fontFamily: "Montserrat_500Medium",
-  // },
-  // progressBarContainer: {
-  //   width: "100%",
-  //   height: 10,
-  //   backgroundColor: "#f0f0f0",
-  //   borderRadius: 5,
-  //   overflow: "hidden",
-  //   marginVertical: 10,
-  // },
-  // progressBar: {
-  //   height: "100%",
-  //   backgroundColor: "#FE8A01",
-  //   borderRadius: 5,
-  // },
-  // streakNumbers: {
-  //   fontSize: 14,
-  //   color: "#666",
-  //   textAlign: "center",
-  //   fontFamily: "Montserrat_400Regular_Italic",
-  //   marginTop: 5,
-  // },
 });
 
 export default HomeScreen;
