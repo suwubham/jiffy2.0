@@ -160,7 +160,7 @@ const FoodRecommendationScreen = () => {
               <Text style={styles.price}>Rs{item.price}</Text>
               <TouchableOpacity
                 style={[styles.button, { marginTop: 10 }]}
-                onPress={console.log("Add to Cart")}
+                onPress={console.log("Add to Cart::")}
               >
                 <Text style={styles.buttonText}>Add to Cart</Text>
               </TouchableOpacity>
@@ -177,7 +177,7 @@ const FoodRecommendationScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <Text style={styles.title}>Mood Anusar Ko Food</Text>
+        <Text style={styles.title}>Mood Anusar Food</Text>
         <Text style={styles.subtitle}>An AI powered Food Recommender</Text>
         <Text style={styles.questionText}>
           {questions[currentQuestion].text}
