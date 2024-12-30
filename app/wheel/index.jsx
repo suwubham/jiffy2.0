@@ -3,7 +3,7 @@ import Svg, { Polygon, Text } from 'react-native-svg';
 import { Text as RNText } from 'react-native';
 import { useState, useRef } from 'react';
 
-export function WheelSpin() {
+export default function WheelSpin() {
   const rotation = useAnimatedValue(0);
   const animating = useRef(false);
   const superRotation = useRef(0);
@@ -102,16 +102,14 @@ export function WheelSpin() {
     angle -= delta;
   }
 
-  // console.log(triangles);
-
   return (
     <SafeAreaView style={styles.container}>
-      <RNText style={styles.text}>Wheel of Fortune</RNText>
+      <RNText style={styles.text}>Tap to spin</RNText>
       <Pressable style={styles.circleContainer} onPress={rotate}>
         <View style={styles.pointer} />
         <Animated.View style={[styles.circle, {transform: [{rotateZ}]}]}>
         <Svg style={styles.pizza}>
-          {triangles.map((e, i) => <Polygon key={i} points={e.points} fill={/* rewards[i].color */ `hsl(${e.rotation}, 70%, 50%)`} stroke="hsl(194, 19.50%, 82.90%)" strokeWidth={2}/>)}
+          {triangles.map((e, i) => <Polygon key={i} points={e.points} fill={`hsl(${e.rotation}, 70%, 50%)`} stroke="hsl(194, 19.50%, 82.90%)" strokeWidth={2}/>)}
           {triangles.map((e, i) => <Text key={i} fontSize={Math.min(200 / rewards[i].length, 20)} x={40} y={7} fill="white" transform={`translate(${cx}, ${cy}) rotate(${e.rotation})`}>{`${rewards[i]}`}</Text>)}
         </Svg>
         </Animated.View>
@@ -155,7 +153,7 @@ const styles = StyleSheet.create({
   },
   pizza: {width: '100%', height: '100%'},
   text: {
-    padding: 10,
+    padding: 50,
     fontSize: 20,
     // color: "white",
   }
