@@ -16,8 +16,9 @@ export default function NotificationPage() {
     const mockData = [
       {
         id: 1,
-        title: "Do you want to order any food?",
-        description: "You recently ordered food at around 5 pm.",
+        title: "🥟✨ Craving deliciousness? ",
+        description:
+          " Enjoy 50% OFF on our steaming hot momos! 🥰🔥 Treat yourself to happiness in every bite—order now! 🛵💨",
         timestamp: "2024-12-30 05:15 PM",
       },
       {
