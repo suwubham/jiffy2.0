@@ -101,8 +101,8 @@ const Profile = () => {
         </View>
         <View style={styles.ordersContainer}>
           <Text style={styles.ordersTitle}>Recent Orders</Text>
-          {userorders.map((order) => (
-            <View key={order.id} style={styles.order}>
+          {userorders.map((order, index) => (
+            <View key={index} style={styles.order}>
               <Text style={styles.orderContent}>{order.order_name}</Text>
               <View style={styles.orderStats}>
                 <View style={styles.orderItems}>
@@ -234,7 +234,8 @@ const styles = StyleSheet.create({
   },
   orderContent: {
     fontSize: 18,
-    fontWeight: "bold",
+    // fontWeight: "bold",
+    fontFamily: "Montserrat_400Regular_Italic",
     marginBottom: 10,
   },
   orderStats: {

@@ -8,7 +8,10 @@ import {
   TouchableOpacity,
   Linking,
 } from "react-native";
-import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import {
+  Ionicons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import { useLocalSearchParams } from "expo-router";
 import { supabase } from "../../utils/supabase";
 
@@ -163,7 +166,7 @@ const RestaurantScreen = ({ route, navigation }) => {
         const { data, error } = await supabase
           .from("cart")
           .select("cart")
-          .eq("id", 1) 
+          .eq("id", 1)
           .single();
 
         if (error) throw error;
@@ -180,46 +183,46 @@ const RestaurantScreen = ({ route, navigation }) => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <ScrollView>
-        <Image source={{ uri: image }} style={styles.restaurantImage} />
-        <View style={styles.restaurantInfo}>
-          <Text style={styles.restaurantName}>{name}</Text>
-          <Text style={styles.restaurantLocation}>{location}</Text>
-          <View style={styles.ratingContainer}>
-            <Ionicons name="star" size={16} color="#FFC107" />
-            <Text style={styles.rating}>{rating}</Text>
-            <Ionicons name="time" size={16} color="#FE8A01" />
-            <Text style={styles.deliveryTime}>{deliveryTime} min</Text>
+      <View style={styles.container}>
+        <ScrollView>
+          <Image source={{ uri: image }} style={styles.restaurantImage} />
+          <View style={styles.restaurantInfo}>
+            <Text style={styles.restaurantName}>{name}</Text>
+            <Text style={styles.restaurantLocation}>{location}</Text>
+            <View style={styles.ratingContainer}>
+              <Ionicons name="star" size={16} color="#FFC107" />
+              <Text style={styles.rating}>{rating}</Text>
+              <Ionicons name="time" size={16} color="#FE8A01" />
+              <Text style={styles.deliveryTime}>{deliveryTime} min</Text>
+            </View>
           </View>
-        </View>
-        <Text style={styles.menuTitle}>Menu</Text>
-        {menuItems.map((item) => (
-          <MenuItem key={item.id} item={item} cart={cart} setCart={setCart} />
-        ))}
-      </ScrollView>
-      <TouchableOpacity
-        style={styles.viewCartButton}
-        onPress={async () => {
-          console.log("Updating cart in Supabase:", cart);
-          try {
-            const { data, error } = await supabase.from("cart").upsert([
-              {
-                id: 1,
-                cart: JSON.stringify(cart),
-              },
-            ]);
+          <Text style={styles.menuTitle}>Menu</Text>
+          {menuItems.map((item) => (
+            <MenuItem key={item.id} item={item} cart={cart} setCart={setCart} />
+          ))}
+        </ScrollView>
+        <TouchableOpacity
+          style={styles.viewCartButton}
+          onPress={async () => {
+            console.log("Updating cart in Supabase:", cart);
+            try {
+              const { data, error } = await supabase.from("cart").upsert([
+                {
+                  id: 1,
+                  cart: JSON.stringify(cart),
+                },
+              ]);
 
-            if (error) throw error;
-            console.log("Cart updated successfully", data);
-          } catch (error) {
-            console.error("Error updating cart", error);
-          }
-        }}
-      >
-        <Text style={styles.viewCartButtonText}>Add to Cart</Text>
-      </TouchableOpacity>
-    </View>
+              if (error) throw error;
+              console.log("Cart updated successfully", data);
+            } catch (error) {
+              console.error("Error updating cart", error);
+            }
+          }}
+        >
+          <Text style={styles.viewCartButtonText}>Add to Cart</Text>
+        </TouchableOpacity>
+      </View>
   );
 };
 
@@ -266,12 +269,11 @@ const MenuItem = ({ item, cart, setCart }) => {
               <Ionicons name="add" size={24} color="#FE8A01" />
             </TouchableOpacity>
           </View>
-          {
-            item.arurl && (<TouchableOpacity onPress={() => Linking.openURL(item.arurl)}>
-                <MaterialIcons name="view-in-ar" size={24} color="#FE8A01" />
-              </TouchableOpacity>)
-          }
-
+          {item.arurl && (
+            <TouchableOpacity onPress={() => Linking.openURL(item.arurl)}>
+              <MaterialIcons name="view-in-ar" size={24} color="#FE8A01" />
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </View>
@@ -367,9 +369,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 8,
   },
-//   quantityButton: {
-//     padding: 8,
-//   },
+  //   quantityButton: {
+  //     padding: 8,
+  //   },
   quantityText: {
     fontSize: 18,
     marginHorizontal: 8,

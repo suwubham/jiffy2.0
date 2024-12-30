@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16,
     paddingBottom: 0,
-    paddingTop: 25,
+    paddingTop: 10,
   },
   resaddress: {
     color: "#666",
