@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, {  useState, useRef } from "react";
 import {
   View,
   Text,
@@ -12,67 +12,9 @@ import Svg, { Circle } from "react-native-svg";
 import { useFocusEffect } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import Headline from "../../components/Headline";
+import { supabase } from "../../utils/supabase";
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
-
-const achievements = [
-  {
-    id: 1,
-    title: "Grill Guru",
-    description: "Order 50 grilled items",
-    icon: require("../../assets/images/grill-icon.png"),
-    medal: require("../../assets/images/gold-medal.png"),
-    progress: 100,
-  },
-  {
-    id: 2,
-    title: "Taste Explorer",
-    description: "Order from 10 different restaurants",
-    icon: require("../../assets/images/taste-icon.png"),
-    medal: require("../../assets/images/silver-medal.png"),
-    progress: 25,
-  },
-  {
-    id: 3,
-    title: "Sushi Samurai",
-    description: "Order sushi 5 times",
-    icon: require("../../assets/images/sushi-icon.png"),
-    medal: require("../../assets/images/bronze-medal.png"),
-    progress: 80,
-  },
-  {
-    id: 4,
-    title: "Pizza Prodigy",
-    description: "Order 10 pizza items",
-    icon: require("../../assets/images/pizza-icon.png"),
-    medal: require("../../assets/images/bronze-medal.png"),
-    progress: 45,
-  },
-  {
-    id: 5,
-    title: "Burger Beast",
-    description: "Order Burger 10 times",
-    icon: require("../../assets/images/burger-icon.png"),
-    medal: require("../../assets/images/bronze-medal.png"),
-    progress: 30,
-  },
-  {
-    id: 6,
-    title: "Momo Maniac",
-    description: "Try 10 types of momo",
-    icon: require("../../assets/images/momo-icon.png"),
-    medal: require("../../assets/images/bronze-medal.png"),
-    progress: 20,
-  },
-  {
-    id: 7,
-    title: "Pasta Perfectionist",
-    description: "Try 5 types of pasta",
-    icon: require("../../assets/images/pasta-icon.png"),
-    medal: require("../../assets/images/bronze-medal.png"),
-    progress: 10,
-  },
-];
 
 const CircularProgress = ({ progress, size = 48, strokeWidth = 4 }) => {
   const animatedProgress = useRef(new Animated.Value(0)).current;
@@ -80,7 +22,6 @@ const CircularProgress = ({ progress, size = 48, strokeWidth = 4 }) => {
   const circumference = radius * 2 * Math.PI;
 
   const startAnimation = () => {
-    // Reset the animation value
     animatedProgress.setValue(0);
     Animated.timing(animatedProgress, {
       toValue: progress,
@@ -89,12 +30,10 @@ const CircularProgress = ({ progress, size = 48, strokeWidth = 4 }) => {
     }).start();
   };
 
-  // Use useFocusEffect to restart animation when screen comes into focus
   useFocusEffect(
     React.useCallback(() => {
       startAnimation();
       return () => {
-        // Optional cleanup if needed
       };
     }, [progress])
   );
@@ -137,8 +76,18 @@ export default function UserProfile() {
   const progressAnimation = useRef(new Animated.Value(0)).current;
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
+  const [achievements, setAchievements] = useState([]);
+
+  const fetchAchievements = async () => {
+    const { data, error } = await supabase.from("achievements").select();
+    if (error) {
+      console.error("Error fetching achievements:", error);
+    } else {
+      setAchievements(data);
+    }
+  };
+
   const startProgressAnimation = () => {
-    // Reset the animation value
     progressAnimation.setValue(0);
     Animated.timing(progressAnimation, {
       toValue: 86.6,
@@ -147,13 +96,11 @@ export default function UserProfile() {
     }).start();
   };
 
-  // Use useFocusEffect instead of useEffect to handle navigation focus
   useFocusEffect(
     React.useCallback(() => {
       startProgressAnimation();
-      return () => {
-        // Optional cleanup if needed
-      };
+      fetchAchievements();
+      return () => {};
     }, [])
   );
 
@@ -166,24 +113,7 @@ export default function UserProfile() {
           setIsPopupVisible={setIsPopupVisible}
         />
       </View>
-      <ScrollView>
-        <View style={styles.profileHeader}>
-          <Image
-            source={require("../../assets/images/profile-image.png")}
-            style={styles.profilePic}
-          />
-          <Text style={styles.userName}>New User</Text>
-        </View>
-        <TouchableOpacity
-          // style={styles.restaurantItem}
-          onPress={() =>
-            router.push({
-              pathname: "/leaderboard",
-            })
-          }
-        >
-          <Text>Lead</Text>
-        </TouchableOpacity>
+      <ScrollView style={{ marginTop: 20 }}>
         <View style={styles.levelContainer}>
           <View style={styles.levelHeader}>
             <View style={styles.levelBadge}>
@@ -220,7 +150,7 @@ export default function UserProfile() {
                 <View style={styles.achievementIconContainer}>
                   <CircularProgress progress={achievement.progress} />
                   <Image
-                    source={achievement.icon}
+                    source={{ uri: achievement.icon }}
                     style={styles.achievementIcon}
                   />
                 </View>
@@ -232,7 +162,10 @@ export default function UserProfile() {
                     {achievement.description}
                   </Text>
                 </View>
-                <Image source={achievement.medal} style={styles.medalIcon} />
+                <Image
+                  source={{ uri: achievement.medal }}
+                  style={styles.medalIcon}
+                />
               </View>
             </TouchableOpacity>
           ))}
@@ -257,6 +190,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderBottomColor: "#E0E0E0",
   },
+
   profileHeader: {
     alignItems: "center",
     paddingVertical: 20,
@@ -299,16 +233,17 @@ const styles = StyleSheet.create({
   levelNumber: {
     color: "#fff",
     fontSize: 14,
-    fontWeight: "600",
+    fontFamily: "Montserrat_700Bold",
   },
   levelText: {
     fontSize: 16,
-    fontWeight: "600",
+    fontFamily: "Montserrat_700Bold",
   },
   pointsText: {
     fontSize: 14,
     color: "#666",
     marginBottom: 8,
+    fontFamily: "Montserrat_500Medium",
   },
   progressBarContainer: {
     marginTop: 8,
@@ -332,6 +267,7 @@ const styles = StyleSheet.create({
   progressNumber: {
     fontSize: 12,
     color: "#666",
+    fontFamily: "Montserrat_500Medium",
   },
   achievementsList: {
     flex: 1,
@@ -363,12 +299,14 @@ const styles = StyleSheet.create({
   },
   achievementTitle: {
     fontSize: 16,
-    fontWeight: "500",
+    fontFamily: "Montserrat_700Bold",
   },
+
   achievementDescription: {
     fontSize: 14,
     color: "#666",
     marginTop: 2,
+    fontFamily: "Montserrat_400Regular_Italic",
   },
   medalIcon: {
     width: 35,

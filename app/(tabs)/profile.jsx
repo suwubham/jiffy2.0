@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -8,78 +8,159 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import Headline from "../../components/Headline";
+import Avatar, { genConfig } from "@zamplyy/react-native-nice-avatar";
+import { supabase } from "../../utils/supabase";
+import { useFocusEffect } from "@react-navigation/native";
 
 const Profile = () => {
   const user = {
     name: "Jane Doe",
     username: "@janedoe",
     bio: "Software developer | React Native enthusiast | Coffee lover",
-    followers: 1234,
-    following: 567,
-    posts: 89,
-    avatar: "https://placekitten.com/200/200",
+    followers: 100,
+    // following: 567,
+    posts: 15,
+    avatar:
+      "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg",
   };
 
-  const userPosts = [
-    { id: "1", content: "Just launched my new app!", likes: 42, comments: 7 },
+  const userorders = [
     {
-      id: "2",
-      content: "Learning new React Native techniques",
-      likes: 38,
-      comments: 5,
+      order_id: "1",
+      order_name: "Afternoon Food",
+      items: ["Pizza", "Beer"],
+      quantity: 2,
+      amount: 350,
+      total: 700,
     },
     {
-      id: "3",
-      content: "Beautiful sunset at the beach",
-      likes: 56,
-      comments: 12,
+      order_id: "2",
+      order_name: "Breakfast",
+      items: ["Cafe Latte", "Butter Taost", "Omelette"],
+      quantity: 2,
+      amount: 350,
+      total: 940,
+    },
+    {
+      order_id: "3",
+      order_name: "Dinner",
+      items: ["Chicken Biryani", "Diet Coke"],
+      quantity: 2,
+      amount: 350,
+      total: 560,
     },
   ];
+  const router = useRouter();
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+
+  const config = genConfig({ sex: "male" });
+  const [seed, setSeed] = useState("default");
+
+  const regenerateAvatar = () => {
+    setSeed(Math.random().toString(36).substring(7));
+  };
+
+  const [leaderboard, setLeaderboard] = useState([]);
+
+  const fetchLeaderboard = async () => {
+    const { data, error } = await supabase.from("leaderboard").select();
+    if (error) {
+      console.error("Error fetching leaderboard:", error);
+    } else {
+      setLeaderboard(data);
+    }
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchLeaderboard();
+      return () => {};
+    }, [])
+  );
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <Image source={{ uri: user.avatar }} style={styles.avatar} />
-        <Text style={styles.name}>{user.name}</Text>
-        <Text style={styles.username}>{user.username}</Text>
-        <Text style={styles.bio}>{user.bio}</Text>
-        <View style={styles.statsContainer}>
-          <View style={styles.statItem}>
-            <Text style={styles.statValue}>{user.posts}</Text>
-            <Text style={styles.statLabel}>Posts</Text>
-          </View>
-          <View style={styles.statItem}>
-            <Text style={styles.statValue}>{user.followers}</Text>
-            <Text style={styles.statLabel}>Followers</Text>
-          </View>
-          <View style={styles.statItem}>
-            <Text style={styles.statValue}>{user.following}</Text>
-            <Text style={styles.statLabel}>Following</Text>
-          </View>
-        </View>
-        <TouchableOpacity style={styles.editButton}>
-          <Text style={styles.editButtonText}>Edit Profile</Text>
-        </TouchableOpacity>
+    <View style={styles.container}>
+      <View style={styles.headlineContainer}>
+        <Headline
+          isPopupVisible={isPopupVisible}
+          setIsPopupVisible={setIsPopupVisible}
+        />
       </View>
-      <View style={styles.postsContainer}>
-        <Text style={styles.postsTitle}>Recent Posts</Text>
-        {userPosts.map((post) => (
-          <View key={post.id} style={styles.post}>
-            <Text style={styles.postContent}>{post.content}</Text>
-            <View style={styles.postStats}>
-              <View style={styles.postStat}>
-                <Ionicons name="heart-outline" size={16} color="#666" />
-                <Text style={styles.postStatText}>{post.likes}</Text>
-              </View>
-              <View style={styles.postStat}>
-                <Ionicons name="chatbubble-outline" size={16} color="#666" />
-                <Text style={styles.postStatText}>{post.comments}</Text>
-              </View>
+      <ScrollView>
+        <View style={styles.header}>
+          <Avatar style={styles.avatar} {...config} />
+
+          <Text style={styles.name}>{user.name}</Text>
+          <TouchableOpacity
+            onPress={() =>
+              router.push({
+                pathname: "/leaderboard",
+                params: {
+                  leaderboard: JSON.stringify(leaderboard),
+                },
+              })
+            }
+            style={styles.leaderboardIcon}
+          >
+            <Ionicons
+              name="bar-chart-outline"
+              size={25}
+              color="#fe8a01"
+            ></Ionicons>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={regenerateAvatar}
+            style={styles.avatarIcon}
+          >
+            <Ionicons name="happy-outline" size={25} color="#fe8a01"></Ionicons>
+          </TouchableOpacity>
+
+          <Text style={styles.username}>Grill Guru</Text>
+          <Text style={styles.bio}>{user.bio}</Text>
+          <View style={styles.statsContainer}>
+            <View style={styles.statItem}>
+              <Text style={styles.statValue}>{user.posts}</Text>
+              <Text style={styles.statLabel}>Foods Ordered</Text>
+            </View>
+            <View style={styles.statItem}>
+              <Text style={styles.statValue}>{user.followers}</Text>
+              <Text style={styles.statLabel}>Followers</Text>
             </View>
           </View>
-        ))}
-      </View>
-    </ScrollView>
+          <TouchableOpacity style={styles.editButton}>
+            <Text style={styles.editButtonText}>Edit Profile</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.ordersContainer}>
+          <Text style={styles.ordersTitle}>Recent Orders</Text>
+          {userorders.map((order, index) => (
+            <View key={index} style={styles.order}>
+              <Text style={styles.orderContent}>{order.order_name}</Text>
+              <View style={styles.orderStats}>
+                <View style={styles.orderItems}>
+                  {/* <Ionicons name="heart-outline" size={16} color="#666" /> */}
+                  {order.items.map((item, id) => (
+                    <Text style={styles.orderStatText} key={id}>
+                      {id + 1}. {item}
+                    </Text>
+                  ))}
+                </View>
+                <View style={styles.orderStat}>
+                  <Ionicons name="fast-food-outline" size={16} color="#666" />
+                  <Text style={styles.orderStatText}>{order.quantity}</Text>
+                </View>
+                <View style={styles.orderStat}>
+                  <Ionicons name="cash-outline" size={16} color="#666" />
+                  <Text style={styles.orderStatText}>{order.total}</Text>
+                </View>
+              </View>
+            </View>
+          ))}
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 
@@ -87,6 +168,44 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f5f5f5",
+  },
+  headlineContainer: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 10,
+    borderBottomWidth: 1,
+    paddingVertical: 10,
+    borderBottomColor: "#E0E0E0",
+  },
+  leaderboardIcon: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+    backgroundColor: "#fff",
+    padding: 10,
+    borderRadius: 25,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.84,
+    elevation: 5,
+    zIndex: 10,
+  },
+  avatarIcon: {
+    position: "absolute",
+    top: 70,
+    right: 10,
+    backgroundColor: "#fff",
+    padding: 10,
+    borderRadius: 25,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.84,
+    elevation: 5,
+    zIndex: 10,
   },
   header: {
     alignItems: "center",
@@ -131,42 +250,54 @@ const styles = StyleSheet.create({
     color: "#666",
   },
   editButton: {
-    backgroundColor: "#007AFF",
+    backgroundColor: "#fe8a01",
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 20,
   },
   editButtonText: {
     color: "white",
-    fontWeight: "bold",
+    fontSize: 16,
+    fontFamily: "Montserrat_400Regular_Italic",
   },
-  postsContainer: {
+  ordersContainer: {
     padding: 20,
   },
-  postsTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
+  ordersTitle: {
+    fontSize: 24,
     marginBottom: 10,
+    color: "#fe8a01",
+    fontFamily: "Montserrat_900Black_Italic",
   },
-  post: {
+  order: {
     backgroundColor: "white",
     padding: 15,
     borderRadius: 10,
     marginBottom: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
-  postContent: {
-    fontSize: 14,
+  orderContent: {
+    fontSize: 18,
+    fontFamily: "Montserrat_400Regular_Italic",
     marginBottom: 10,
   },
-  postStats: {
+  orderStats: {
     flexDirection: "row",
   },
-  postStat: {
+  orderStat: {
     flexDirection: "row",
     alignItems: "center",
     marginRight: 15,
   },
-  postStatText: {
+  orderItems: {
+    flexDirection: "column",
+    marginRight: 15,
+  },
+  orderStatText: {
     marginLeft: 5,
     color: "#666",
   },

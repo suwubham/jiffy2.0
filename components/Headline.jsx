@@ -10,29 +10,28 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+ import { MaterialIcons } from "@expo/vector-icons";
 
 const CustomPopup = ({ visible, onClose }) => {
-  const [progress] = useState(new Animated.Value(0)); // Initialize the animated value
-  const maxStreak = 30; // Maximum streak value
-  const currentStreak = 13; // Current streak
-
+  const [progress] = useState(new Animated.Value(0)); 
+  const maxStreak = 30; 
+  const currentStreak = 13; 
   React.useEffect(() => {
     if (visible) {
-      // Reset progress to 0 before starting the animation
       progress.setValue(0);
       Animated.timing(progress, {
-        toValue: currentStreak / maxStreak, // Calculate progress percentage
-        duration: 800, // Animation duration
-        useNativeDriver: false, // Use native driver (false for width animation)
+        toValue: currentStreak / maxStreak, 
+        duration: 800, 
+        useNativeDriver: false, 
       }).start();
     }
-  }, [visible]); // Listen to changes in `visible`
+  }, [visible]); 
 
   if (!visible) return null;
 
   const progressBarWidth = progress.interpolate({
     inputRange: [0, 1],
-    outputRange: ["0%", "100%"], // Interpolate the progress to width percentage
+    outputRange: ["0%", "100%"], 
   });
 
   return (
@@ -55,7 +54,6 @@ const CustomPopup = ({ visible, onClose }) => {
                     style={[styles.progressBar, { width: progressBarWidth }]}
                   />
                 </View>
-                {/* Display max and current streak */}
                 <Text style={styles.streakNumbers}>
                   {currentStreak} / {maxStreak} weeks
                 </Text>
@@ -90,9 +88,9 @@ export default Headline = ({ isPopupVisible, setIsPopupVisible }) => {
                 fontFamily: "Montserrat_700Bold_Italic",
               }}
             >
-              6940
+              694
             </Text>
-            <Ionicons name="wallet" size={25} color="#FE8A01" />
+            <MaterialIcons name="redeem" size={22} color="#FE8A01" />
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setIsPopupVisible(true)}>
@@ -146,7 +144,7 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16,
     paddingBottom: 0,
-    paddingTop: 25,
+    paddingTop: 0,
   },
   resaddress: {
     color: "#666",

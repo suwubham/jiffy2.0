@@ -7,10 +7,15 @@ import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { useFonts } from "expo-font";
 import {
+  Montserrat_400Regular_Italic,
   Montserrat_500Medium,
+  Montserrat_600SemiBold_Italic,
   Montserrat_700Bold,
+  Montserrat_700Bold_Italic,
   Montserrat_900Black_Italic,
+  Montserrat_600SemiBold
 } from "@expo-google-fonts/montserrat";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -19,12 +24,17 @@ export default function TabLayout() {
     Montserrat_700Bold,
     Montserrat_500Medium,
     Montserrat_900Black_Italic,
+    Montserrat_400Regular_Italic,
+    Montserrat_600SemiBold_Italic,
+    Montserrat_700Bold_Italic,
+    Montserrat_600SemiBold
   });
 
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarInactiveTintColor: Colors[colorScheme ?? "light"].icon,
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarStyle: [
@@ -46,7 +56,7 @@ export default function TabLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
+            <Ionicons size={28} name="home-sharp" color={color} />
           ),
         }}
       />
@@ -54,37 +64,29 @@ export default function TabLayout() {
         name="achievement"
         options={{
           title: "Achievement",
+          headerShown: false,
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="medal.fill" color={color} />
+            <Ionicons size={28} name="trophy-sharp" color={color} />
           ),
         }}
       />
-      {/* <Tabs.Screen
-        name="leaderboard"
+
+      <Tabs.Screen
+        name="wheel"
         options={{
-          title: "Leaderboard",
+          title: "Mini Game",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="leaderboard.fill" color={color} />
+            <Ionicons size={28} name="game-controller-sharp" color={color} />
           ),
         }}
-      /> */}
-      {/* <View style={{ flex: 1, justifyContent: "center" }}> */}
-        <Tabs.Screen
-          name="wheel"
-          options={{
-            title: "Spin the Wheel",
-            tabBarIcon: ({ color }) => (
-              <IconSymbol size={28} name="wheel.fill" color={color} />
-            ),
-          }}
-        />
+      />
       {/* </View> */}
       <Tabs.Screen
-        name="profile"
+        name="game"
         options={{
           title: "Profile",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="profile.fill" color={color} />
+            <Ionicons size={28} name="person-sharp" color={color} />
           ),
         }}
       />
@@ -97,19 +99,19 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 15,
     margin: 10,
-    height: 60, // Set a consistent height
-    justifyContent: "center", // Align content vertically
-    alignItems:"center"
+    height: 60,
+    justifyContent: "center",
+    alignItems: "center",
   },
   tabBarItem: {
-    justifyContent: "center", // Align items vertically
-    alignItems: "center", // Align items horizontally
+    justifyContent: "center",
+    alignItems: "center",
   },
   label: {
     fontSize: 13,
-    textAlign: "center", // Center-align the label
+    textAlign: "center",
   },
   icon: {
-    alignSelf: "center", // Ensure the icon aligns to the center
+    alignSelf: "center",
   },
 });
