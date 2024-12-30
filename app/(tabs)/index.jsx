@@ -186,44 +186,8 @@ const HomeScreen = () => {
           isPopupVisible={isPopupVisible}
           setIsPopupVisible={setIsPopupVisible}
         />
-      </View>{" "}
+      </View>
       <ScrollView>
-        {/* <View style={styles.header}>
-          <Text style={styles.headerTitle}>
-            Jiffy <Text style={styles.headerTitleBold}>2.0</Text>
-          </Text>
-          <View style={styles.toprightview}>
-            <TouchableOpacity>
-              <View style={styles.streakmain}>
-                <Text
-                  style={{
-                    fontSize: 15,
-                    fontFamily: "Montserrat_900Black_Italic",
-                  }}
-                >
-                  6940
-                </Text>
-                <Ionicons name="wallet" size={25} color="#FE8A01" />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => setIsPopupVisible(true)}>
-              <View style={styles.streakmain}>
-                <Text
-                  style={{
-                    fontFamily: "Montserrat_900Black_Italic",
-                    fontSize: 15,
-                  }}
-                >
-                  13
-                </Text>
-                <Ionicons name="flash" size={25} color="#FE8A01" />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => router.push("/cart")}>
-              <Ionicons name="cart-outline" size={30} color="#000" />
-            </TouchableOpacity>
-          </View>
-        </View> */}
 
         <View style={styles.searchBar}>
           <Ionicons
