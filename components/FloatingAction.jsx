@@ -65,7 +65,11 @@ const FloatingButton = () => {
         </TouchableOpacity>
       </Animated.View>
       <Animated.View style={[styles.circle, { bottom: icon_2, right: icon_2 }]}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            router.push({ pathname: "/notification" });
+          }}
+        >
           <Icon name="wechat" size={25} color="#FFFF" />
         </TouchableOpacity>
       </Animated.View>
