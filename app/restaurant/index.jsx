@@ -6,6 +6,7 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
+  Linking,
 } from "react-native";
 import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useLocalSearchParams } from "expo-router";
@@ -19,7 +20,7 @@ const menuItems = [
     description: "Cheesy, crispy, Meaty crust pizza delight",
     image:
       "https://riotfest.org/wp-content/uploads/2016/10/IMG_0545-768x574.jpg",
-    arurl: "helloworld",
+    arurl: "https://jiffy-ar.glitch.me/#pepperoni-small",
   },
   {
     id: 13,
@@ -28,7 +29,7 @@ const menuItems = [
     description: "Cheesy, crispy, Meaty crust pizza delight",
     image:
       "https://riotfest.org/wp-content/uploads/2016/10/IMG_0545-768x574.jpg",
-    arurl: "helloworld",
+    arurl: "https://jiffy-ar.glitch.me/#pepperoni-large",
   },
   {
     id: 2,
@@ -266,7 +267,7 @@ const MenuItem = ({ item, cart, setCart }) => {
             </TouchableOpacity>
           </View>
           {
-            item.arurl && (<TouchableOpacity>
+            item.arurl && (<TouchableOpacity onPress={() => Linking.openURL(item.arurl)}>
                 <MaterialIcons name="view-in-ar" size={24} color="#FE8A01" />
               </TouchableOpacity>)
           }
