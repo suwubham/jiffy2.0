@@ -22,7 +22,7 @@ const achievements = [
     description: "Order 50 grilled items",
     icon: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735556532/grill-icon_c2luyj.png",
     medal: "https://res.cloudinary.com/dckl9mhbs/image/upload/v1735556525/gold-medal_jcfdmy.png",
-    progress: 100,
+    progress: 90,
   },
   { 
     id: 2,
@@ -198,7 +198,8 @@ export default function UserProfile() {
                 <View style={styles.achievementIconContainer}>
                   <CircularProgress progress={achievement.progress} />
                   <Image
-                    source={achievement.icon}
+                    // source={achievement.icon}
+                    source={{ uri: achievement.icon }}
                     style={styles.achievementIcon}
                   />
                 </View>
@@ -210,7 +211,7 @@ export default function UserProfile() {
                     {achievement.description}
                   </Text>
                 </View>
-                <Image source={achievement.medal} style={styles.medalIcon} />
+                <Image source={{ uri : achievement.medal}} style={styles.medalIcon} />
               </View>
             </TouchableOpacity>
           ))}
@@ -235,7 +236,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderBottomColor: "#E0E0E0",
   },
-
+  
   profileHeader: {
     alignItems: "center",
     paddingVertical: 20,
