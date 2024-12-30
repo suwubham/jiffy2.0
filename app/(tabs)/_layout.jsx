@@ -6,11 +6,8 @@ import { IconSymbol } from "@/components/ui/IconSymbol";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { useFonts } from "expo-font";
-import {
-  Montserrat_500Medium,
-  Montserrat_700Bold,
-  Montserrat_900Black_Italic,
-} from "@expo-google-fonts/montserrat";
+import { Montserrat_400Regular_Italic, Montserrat_500Medium, Montserrat_600SemiBold_Italic, Montserrat_700Bold, Montserrat_700Bold_Italic, Montserrat_900Black_Italic } from '@expo-google-fonts/montserrat';
+
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -19,6 +16,9 @@ export default function TabLayout() {
     Montserrat_700Bold,
     Montserrat_500Medium,
     Montserrat_900Black_Italic,
+    Montserrat_400Regular_Italic,
+    Montserrat_600SemiBold_Italic,
+    Montserrat_700Bold_Italic
   });
 
   return (

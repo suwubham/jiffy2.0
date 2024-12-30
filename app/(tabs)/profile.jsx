@@ -97,14 +97,13 @@ const Profile = () => {
         </View>
         <View style={styles.ordersContainer}>
           <Text style={styles.ordersTitle}>Recent Orders</Text>
-          {userorders.map((order) => (
-            <View key={order.id} style={styles.order}>
+          {userorders.map((order,index) => (
+            <View key={index} style={styles.order}>
               <Text style={styles.orderContent}>{order.order_name}</Text>
               <View style={styles.orderStats}>
                 <View style={styles.orderItems}>
-                  {/* <Ionicons name="heart-outline" size={16} color="#666" /> */}
                   {order.items.map((item, id) => (
-                    <Text style={styles.orderStatText}>
+                    <Text style={styles.orderStatText} key={id}>
                       {id + 1}. {item}
                     </Text>
                   ))}
