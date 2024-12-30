@@ -87,7 +87,7 @@ export default Headline = ({ isPopupVisible, setIsPopupVisible }) => {
             <Text
               style={{
                 fontSize: 15,
-                fontFamily: "Montserrat_900Black_Italic",
+                fontFamily: "Montserrat_700Bold_Italic",
               }}
             >
               6940
@@ -99,7 +99,7 @@ export default Headline = ({ isPopupVisible, setIsPopupVisible }) => {
           <View style={styles.streakmain}>
             <Text
               style={{
-                fontFamily: "Montserrat_900Black_Italic",
+                fontFamily: "Montserrat_700Bold_Italic",
                 fontSize: 15,
               }}
             >
