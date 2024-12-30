@@ -12,7 +12,6 @@ import Svg, { Circle } from "react-native-svg";
 import { useFocusEffect } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import Headline from "../../components/Headline";
-import { Ionicons } from "@expo/vector-icons";
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
@@ -173,17 +172,6 @@ export default function UserProfile() {
           />
           <Text style={styles.userName}>New User</Text>
         </View>
-        <TouchableOpacity
-          // style={styles.restaurantItem}
-          onPress={() =>
-            router.push({
-              pathname: "/leaderboard",
-            })
-          }
-          style={styles.leaderboardIcon}
-        >
-          <Ionicons name="bar-chart-outline" size={30}></Ionicons>
-        </TouchableOpacity>
         <View style={styles.levelContainer}>
           <View style={styles.levelHeader}>
             <View style={styles.levelBadge}>
@@ -257,20 +245,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderBottomColor: "#E0E0E0",
   },
-  leaderboardIcon: {
-    position: "absolute",
-    top: 10,
-    right: 10,
-    backgroundColor: "#fff",
-    padding: 10,
-    borderRadius: 25,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 3.84,
-    elevation: 5,
-    zIndex: 10,
-  },
+  
   profileHeader: {
     alignItems: "center",
     paddingVertical: 20,
