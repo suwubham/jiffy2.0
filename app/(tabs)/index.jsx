@@ -269,8 +269,9 @@ const HomeScreen = () => {
 
         <Text style={styles.sectionTitle}>Featured Foods</Text>
       </ScrollView>
-      {/* <CustomPopup
       <FloatingButton/>
+
+      {/* <CustomPopup
       <CustomPopup 
         visible={isPopupVisible}
         onClose={() => setIsPopupVisible(false)}

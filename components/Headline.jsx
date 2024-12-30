@@ -8,6 +8,7 @@ import {
   Animated,
   TouchableOpacity,
 } from "react-native";
+import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
 const CustomPopup = ({ visible, onClose }) => {
@@ -74,6 +75,7 @@ const CustomPopup = ({ visible, onClose }) => {
 };
 
 export default Headline = ({ isPopupVisible, setIsPopupVisible }) => {
+  const router = useRouter();
   return (
     <View style={styles.header}>
       <Text style={styles.headerTitle}>
@@ -106,7 +108,7 @@ export default Headline = ({ isPopupVisible, setIsPopupVisible }) => {
             <Ionicons name="flash" size={25} color="#FE8A01" />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push("/cart")}>
           <Ionicons name="cart-outline" size={30} color="#000" />
         </TouchableOpacity>
       </View>
@@ -144,7 +146,7 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16,
     paddingBottom: 0,
-    paddingTop: 50,
+    paddingTop: 25,
   },
   resaddress: {
     color: "#666",

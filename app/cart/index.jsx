@@ -198,7 +198,7 @@ export default function CheckoutPage() {
       </ScrollView>
       <View style={styles.totalContainer}>
         <Text style={styles.totalText}>Total Amount:</Text>
-        <Text style={styles.totalAmount}>₹{totalAmount}</Text>
+        <Text style={styles.totalAmount}>Rs. {totalAmount}</Text>
       </View>
       <TouchableOpacity style={styles.checkoutButton} onPress={handleCheckout}>
         <Text style={styles.checkoutButtonText}>Proceed to Payment</Text>
