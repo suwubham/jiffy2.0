@@ -24,27 +24,26 @@ const categories = [
 ];
 
 const CustomPopup = ({ visible, onClose }) => {
-  const [progress] = useState(new Animated.Value(0)); // Initialize the animated value
-  const maxStreak = 30; // Maximum streak value
-  const currentStreak = 13; // Current streak
+  const [progress] = useState(new Animated.Value(0)); 
+  const maxStreak = 30; 
+  const currentStreak = 13; 
 
   React.useEffect(() => {
     if (visible) {
-      // Reset progress to 0 before starting the animation
       progress.setValue(0);
       Animated.timing(progress, {
-        toValue: currentStreak / maxStreak, // Calculate progress percentage
-        duration: 800, // Animation duration
-        useNativeDriver: false, // Use native driver (false for width animation)
+        toValue: currentStreak / maxStreak, 
+        duration: 800, 
+        useNativeDriver: false, 
       }).start();
     }
-  }, [visible]); // Listen to changes in `visible`
+  }, [visible]); 
 
   if (!visible) return null;
 
   const progressBarWidth = progress.interpolate({
     inputRange: [0, 1],
-    outputRange: ["0%", "100%"], // Interpolate the progress to width percentage
+    outputRange: ["0%", "100%"], 
   });
 
   return (
@@ -179,6 +178,7 @@ const RestaurantItem = ({ restaurant }) => {
 };
 
 const HomeScreen = () => {
+    const router = useRouter();
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   return (
     <View style={styles.container}>
@@ -214,7 +214,7 @@ const HomeScreen = () => {
                 <Ionicons name="flash" size={25} color="#FE8A01" />
               </View>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => router.push("/cart")}>
               <Ionicons name="cart-outline" size={30} color="#000" />
             </TouchableOpacity>
           </View>

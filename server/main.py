@@ -3,8 +3,14 @@ import random
 from openai import OpenAI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+import os
 
-client = OpenAI()
+load_dotenv()
+
+openai_api_key = os.getenv("OPENAI_API_KEY")
+
+client = OpenAI(api_key=openai_api_key)
 
 app = FastAPI()
 app.add_middleware(
@@ -81,4 +87,3 @@ def get_food_suggestion(request : dict):
     )
     output = completion.choices[0].message.content
     return {"suggestion": output}
-
