@@ -6,8 +6,15 @@ import { IconSymbol } from "@/components/ui/IconSymbol";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { useFonts } from "expo-font";
-import { Montserrat_400Regular_Italic, Montserrat_500Medium, Montserrat_600SemiBold_Italic, Montserrat_700Bold, Montserrat_700Bold_Italic, Montserrat_900Black_Italic } from '@expo-google-fonts/montserrat';
-
+import {
+  Montserrat_400Regular_Italic,
+  Montserrat_500Medium,
+  Montserrat_600SemiBold_Italic,
+  Montserrat_700Bold,
+  Montserrat_700Bold_Italic,
+  Montserrat_900Black_Italic,
+} from "@expo-google-fonts/montserrat";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -18,7 +25,7 @@ export default function TabLayout() {
     Montserrat_900Black_Italic,
     Montserrat_400Regular_Italic,
     Montserrat_600SemiBold_Italic,
-    Montserrat_700Bold_Italic
+    Montserrat_700Bold_Italic,
   });
 
   return (
@@ -46,7 +53,8 @@ export default function TabLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
+            // <IconSymbol size={28} name="house.fill" color={color} />
+            <Ionicons size={28} name="home" color={color} />
           ),
         }}
       />
@@ -55,7 +63,8 @@ export default function TabLayout() {
         options={{
           title: "Achievement",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="medal.fill" color={color} />
+            // <IconSymbol size={28} name="medal.fill" color={color} />
+            <Ionicons size={28} name="trophy" color={color} />
           ),
         }}
       />
@@ -69,22 +78,24 @@ export default function TabLayout() {
         }}
       /> */}
       {/* <View style={{ flex: 1, justifyContent: "center" }}> */}
-        <Tabs.Screen
-          name="wheel"
-          options={{
-            title: "Spin the Wheel",
-            tabBarIcon: ({ color }) => (
-              <IconSymbol size={28} name="wheel.fill" color={color} />
-            ),
-          }}
-        />
+      <Tabs.Screen
+        name="wheel"
+        options={{
+          title: "Spin the Wheel",
+          tabBarIcon: ({ color }) => (
+            // <IconSymbol size={28} name="wheel.fill" color={color} />
+            <Ionicons size={28} name="aperture" color={color} />
+          ),
+        }}
+      />
       {/* </View> */}
       <Tabs.Screen
         name="profile"
         options={{
           title: "Profile",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="profile.fill" color={color} />
+            // <IconSymbol size={28} name="profile.fill" color={color} />
+            <Ionicons size={28} name="person" color={color} />
           ),
         }}
       />
@@ -97,19 +108,19 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 15,
     margin: 10,
-    height: 60, // Set a consistent height
-    justifyContent: "center", // Align content vertically
-    alignItems:"center"
+    height: 60,
+    justifyContent: "center",
+    alignItems: "center",
   },
   tabBarItem: {
-    justifyContent: "center", // Align items vertically
-    alignItems: "center", // Align items horizontally
+    justifyContent: "center",
+    alignItems: "center",
   },
   label: {
     fontSize: 13,
-    textAlign: "center", // Center-align the label
+    textAlign: "center",
   },
   icon: {
-    alignSelf: "center", // Ensure the icon aligns to the center
+    alignSelf: "center",
   },
 });

@@ -73,7 +73,11 @@ const Profile = () => {
             }
             style={styles.leaderboardIcon}
           >
-            <Ionicons name="bar-chart-outline" size={30}></Ionicons>
+            <Ionicons
+              name="bar-chart-outline"
+              size={25}
+              color="#fe8a01"
+            ></Ionicons>
           </TouchableOpacity>
           <Text style={styles.username}>{user.username}</Text>
           <Text style={styles.bio}>{user.bio}</Text>
@@ -97,11 +101,12 @@ const Profile = () => {
         </View>
         <View style={styles.ordersContainer}>
           <Text style={styles.ordersTitle}>Recent Orders</Text>
-          {userorders.map((order,index) => (
-            <View key={index} style={styles.order}>
+          {userorders.map((order) => (
+            <View key={order.id} style={styles.order}>
               <Text style={styles.orderContent}>{order.order_name}</Text>
               <View style={styles.orderStats}>
                 <View style={styles.orderItems}>
+                  {/* <Ionicons name="heart-outline" size={16} color="#666" /> */}
                   {order.items.map((item, id) => (
                     <Text style={styles.orderStatText} key={id}>
                       {id + 1}. {item}
@@ -204,16 +209,17 @@ const styles = StyleSheet.create({
   },
   editButtonText: {
     color: "white",
-    fontWeight: "bold",
+    fontSize: 16,
+    fontFamily: "Montserrat_400Regular_Italic",
   },
   ordersContainer: {
     padding: 20,
   },
   ordersTitle: {
-    fontSize: 22,
-    fontWeight: "bold",
+    fontSize: 24,
     marginBottom: 10,
-    color:"#fe8a01"
+    color: "#fe8a01",
+    fontFamily: "Montserrat_900Black_Italic",
   },
   order: {
     backgroundColor: "white",
@@ -224,11 +230,11 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 3.84,
-    elevation:5
+    elevation: 5,
   },
   orderContent: {
     fontSize: 18,
-    fontWeight:"bold",
+    fontWeight: "bold",
     marginBottom: 10,
   },
   orderStats: {
