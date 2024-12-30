@@ -43,7 +43,7 @@ export default function NotificationPage() {
 
   const renderNotification = ({ item }) => (
     <TouchableOpacity style={styles.notificationItem}>
-      <Text style={styles.notificationTitle}>{item.title}</Text>
+      <Text style={styles.notificationTitle}>{item.title}</Text>~
       <Text style={styles.notificationDescription}>{item.description}</Text>
       <Text style={styles.notificationTimestamp}>{item.timestamp}</Text>
     </TouchableOpacity>
