@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import FloatingButton from "../../components/FloatingAction";
 
 const categories = [
   { icon: "pizza", name: "Pizza" },
@@ -21,6 +22,70 @@ const categories = [
   { icon: "restaurant", name: "Sushi" },
   { icon: "ice-cream", name: "Dessert" },
 ];
+
+// const CustomPopup = ({ visible, onClose }) => {
+//   const [progress] = useState(new Animated.Value(0)); // Initialize the animated value
+//   const maxStreak = 30; // Maximum streak value
+//   const currentStreak = 13; // Current streak
+
+//   React.useEffect(() => {
+//     if (visible) {
+//       // Reset progress to 0 before starting the animation
+//       progress.setValue(0);
+//       Animated.timing(progress, {
+//         toValue: currentStreak / maxStreak, // Calculate progress percentage
+//         duration: 800, // Animation duration
+//         useNativeDriver: false, // Use native driver (false for width animation)
+//       }).start();
+//     }
+//   }, [visible]); // Listen to changes in `visible`
+
+
+//   if (!visible) return null;
+
+//   const progressBarWidth = progress.interpolate({
+//     inputRange: [0, 1],
+//     outputRange: ["0%", "100%"], // Interpolate the progress to width percentage
+//   });
+
+//   return (
+//     <Modal transparent visible={visible} animationType="fade">
+//       <TouchableWithoutFeedback onPress={onClose}>
+//         <View style={styles.overlay}>
+//           <TouchableWithoutFeedback>
+//             <View style={styles.popup}>
+//               <View style={styles.popupContent}>
+//                 <View style={styles.popupHeader}>
+//                   <Ionicons name="flash" size={30} color="#FE8A01" />
+//                   <Text style={styles.popupTitle}>Streak Status</Text>
+//                 </View>
+//                 <Text style={styles.popupMessage}>
+//                   You're on a {currentStreak}-week streak! Keep ordering to
+//                   maintain your streak.
+//                 </Text>
+//                 <View style={styles.progressBarContainer}>
+//                   <Animated.View
+//                     style={[styles.progressBar, { width: progressBarWidth }]}
+//                   />
+//                 </View>
+//                 {/* Display max and current streak */}
+//                 <Text style={styles.streakNumbers}>
+//                   {currentStreak} / {maxStreak} weeks
+//                 </Text>
+//                 <Text style={styles.streakInfo}>
+//                   Order today to keep your streak going!
+//                 </Text>
+//                 <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+//                   <Text style={styles.closeButtonText}>Close</Text>
+//                 </TouchableOpacity>
+//               </View>
+//             </View>
+//           </TouchableWithoutFeedback>
+//         </View>
+//       </TouchableWithoutFeedback>
+//     </Modal>
+//   );
+// };
 
 const restaurants = [
   {
@@ -112,6 +177,7 @@ const RestaurantItem = ({ restaurant }) => {
 };
 
 const HomeScreen = () => {
+    const router = useRouter();
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   return (
     <View style={styles.container}>
@@ -122,6 +188,43 @@ const HomeScreen = () => {
         />
       </View>{" "}
       <ScrollView>
+        {/* <View style={styles.header}>
+          <Text style={styles.headerTitle}>
+            Jiffy <Text style={styles.headerTitleBold}>2.0</Text>
+          </Text>
+          <View style={styles.toprightview}>
+            <TouchableOpacity>
+              <View style={styles.streakmain}>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    fontFamily: "Montserrat_900Black_Italic",
+                  }}
+                >
+                  6940
+                </Text>
+                <Ionicons name="wallet" size={25} color="#FE8A01" />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setIsPopupVisible(true)}>
+              <View style={styles.streakmain}>
+                <Text
+                  style={{
+                    fontFamily: "Montserrat_900Black_Italic",
+                    fontSize: 15,
+                  }}
+                >
+                  13
+                </Text>
+                <Ionicons name="flash" size={25} color="#FE8A01" />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => router.push("/cart")}>
+              <Ionicons name="cart-outline" size={30} color="#000" />
+            </TouchableOpacity>
+          </View>
+        </View> */}
+
         <View style={styles.searchBar}>
           <Ionicons
             name="search"
@@ -166,7 +269,10 @@ const HomeScreen = () => {
 
         <Text style={styles.sectionTitle}>Featured Foods</Text>
       </ScrollView>
+      <FloatingButton/>
+
       {/* <CustomPopup
+      <CustomPopup 
         visible={isPopupVisible}
         onClose={() => setIsPopupVisible(false)}
       /> */}
