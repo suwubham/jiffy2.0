@@ -1,26 +1,42 @@
 import React from "react";
 import { View, Text, StyleSheet, FlatList, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import Headline from "../../components/Headline";
 
 const LeaderboardItem = ({ item, index }) => {
-  const getBackgroundColor = () => {
+  const getRankColor = () => {
     if (index === 0) return "#FFCA28";
-    if (index === 1) return "#C0C0C0"; // Silver for 2nd place
-    if (index === 2) return "#CD7F32"; // Bronze for 3rd place
-    return "white"; // Default color for others
+    if (index === 1) return "#C0C0C0";
+    if (index === 2) return "#CD7F32";
+    return "#000";
   };
+
   return (
-    <View style={[styles.item, { backgroundColor: getBackgroundColor() }]}>
+    <View
+      style={[
+        styles.item,
+        {
+          borderColor: getRankColor(),
+          shadowColor: getRankColor(),
+          shadowOffset: { width: 5, height: 5 },
+          shadowOpacity: index < 3 ? 5 : 0,
+          shadowRadius: 15,
+          elevation: 10, // Elevation for Android}
+        },
+      ]}
+    >
       <View style={{ padding: 15 }}>
         <Ionicons name="arrow-up-outline" color="green" />
       </View>
-      <Text style={styles.rank}>{index + 1}</Text>
+      <Text style={[styles.rank, { color: getRankColor() }]}>{index + 1}</Text>
       <Image source={{ uri: item.avatar }} style={styles.avatar} />
       <View style={styles.userInfo}>
         <Text style={styles.name}>{item.name}</Text>
         <Text style={styles.username}>@{item.username}</Text>
       </View>
-      <Text style={styles.score}>{item.score}</Text>
+      <Text style={[styles.score, , { color: getRankColor() }]}>
+        {item.score}
+      </Text>
     </View>
   );
 };
@@ -110,15 +126,15 @@ const LeaderboardDashboard = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    // padding: 20,
     backgroundColor: "#f5f5f8",
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 20,
+    // margin: 20,
     textAlign: "left",
-    paddingVertical: 30,
+    padding: 20,
     color: "#fe8a01",
   },
   item: {
@@ -126,9 +142,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "white",
     padding: 10,
-    marginBottom: 10,
-    borderRadius: 20,
-    elevation: 2,
+    margin: 15,
+    borderRadius: 25,
   },
   rank: {
     fontSize: 18,

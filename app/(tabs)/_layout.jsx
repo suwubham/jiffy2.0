@@ -59,7 +59,7 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="leaderboard"
         options={{
           title: "Leaderboard",
@@ -67,7 +67,7 @@ export default function TabLayout() {
             <IconSymbol size={28} name="leaderboard.fill" color={color} />
           ),
         }}
-      />
+      /> */}
       {/* <View style={{ flex: 1, justifyContent: "center" }}> */}
         <Tabs.Screen
           name="wheel"
@@ -96,16 +96,17 @@ const styles = StyleSheet.create({
   tabBar: {
     backgroundColor: "white",
     borderRadius: 15,
-    margin: 20,
+    margin: 10,
     height: 60, // Set a consistent height
     justifyContent: "center", // Align content vertically
+    alignItems:"center"
   },
   tabBarItem: {
     justifyContent: "center", // Align items vertically
     alignItems: "center", // Align items horizontally
   },
   label: {
-    fontSize: 12,
+    fontSize: 13,
     textAlign: "center", // Center-align the label
   },
   icon: {
