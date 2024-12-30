@@ -165,7 +165,7 @@ export default function UserProfile() {
           isPopupVisible={isPopupVisible}
           setIsPopupVisible={setIsPopupVisible}
         />
-      </View>{" "}
+      </View>
       <ScrollView>
         <View style={styles.profileHeader}>
           <Image
